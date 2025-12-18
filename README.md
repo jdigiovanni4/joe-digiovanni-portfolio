@@ -19,7 +19,7 @@ joseph.n.digiovanni@gmail.com
 
 ## Portfolio Structure
 
-### Analytical & Applied Projects (MLB Orgs)
+### Analytical & Applied Projects
 
 Projects developed for MLB team applications and research questionnaires:
 
