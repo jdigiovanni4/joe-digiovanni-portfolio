@@ -4,7 +4,11 @@
 
 This portfolio showcases my work in baseball analytics and data science, with a focus on predictive modeling, statistical analysis, and applied research for Major League Baseball organizations. My projects demonstrate expertise in machine learning, statistical modeling, data visualization, and the ability to translate complex analytical insights into actionable recommendations for player evaluation and game strategy.
 
+
+
 Contact:
+
+For inquiries about my work or collaboration opportunities, please reach out! I can be reached below:
 
 [linkedin.com/in/josephndigiovanni](https://linkedin.com/in/josephndigiovanni)
 
@@ -50,11 +54,5 @@ Projects developed for MLB team applications and research questionnaires:
 - **Visualization**: Plotly, Streamlit dashboards, matplotlib, seaborn
 - **Tools**: Jupyter Notebooks, Git, Excel, joblib (model serialization)
 
-## Contact
-
-For inquiries about my work or collaboration opportunities, please reach out through GitHub or LinkedIn.
-
 ---
-
-*This portfolio represents my commitment to advancing baseball analytics through data-driven insights and innovative modeling approaches.*
 
