@@ -31,6 +31,8 @@ joseph.n.digiovanni@gmail.com
   - Pitch location plots with strike zone overlay
   - Interactive filtering by outcome, batter handedness, and count situation
 
+- **Next Pitch Prediction Model**: LightGBM model trained on engineered features within Statcast data from the 2024 season aiming to predict the next pitch thrown by a pitcher in an at bat based on the sequencing, historical results, pitcher tendencies, hitter tendencies, and game state. 
+
 ### Statistical Modeling & EDA Projects
 
 - **Statistical Models for Data Science** - A mortgage default risk analysis project using logistic regression (logit and probit models) to predict loan defaults within the first 36 months. The analysis merges loan origination data with servicing performance data, creates default and defect flags based on loan status codes, and builds predictive models using credit score, loan-to-value ratios, debt-to-income ratios, loan amount, and interest rate. The project includes model assessment (deviance tests, AIC comparison), confusion matrix analysis, and loss calculation with expected vs. observed loss comparisons. A refined model incorporates interaction terms and categorical variables (loan purpose, occupancy status) to improve predictive performance, with detailed evaluation of accuracy, precision, recall, and profit calculations for loan decision-making.
