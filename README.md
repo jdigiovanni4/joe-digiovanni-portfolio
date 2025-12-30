@@ -1,4 +1,4 @@
-# Baseball Analytics Portfolio
+# Joe's Portfolio
 
 ## About
 
@@ -30,6 +30,8 @@ joseph.n.digiovanni@gmail.com
   - Movement profiles (horizontal vs vertical break)
   - Pitch location plots with strike zone overlay
   - Interactive filtering by outcome, batter handedness, and count situation
+
+- **Next Pitch Prediction Model**: LightGBM model trained on engineered features within Statcast data from the 2024 season aiming to predict the next pitch thrown by a pitcher in an at bat based on the sequencing, historical results, pitcher tendencies, hitter tendencies, and game state. 
 
 ### Statistical Modeling & EDA Projects
 
