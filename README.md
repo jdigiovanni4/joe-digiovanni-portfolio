@@ -1,4 +1,4 @@
-# Baseball Analytics Portfolio
+# Joe's Portfolio
 
 ## About
 
