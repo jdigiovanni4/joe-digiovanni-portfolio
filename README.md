@@ -45,6 +45,10 @@ joseph.n.digiovanni@gmail.com
 
 - **JUCO Player Analysis** - Player evaluation and categorization work from internship with UCSB Baseball, analyzing Junior College (JUCO) hitters and pitchers with school affiliations. The project involves comprehensive player assessment, categorization, and data organization to support recruiting and player evaluation processes. This work demonstrates practical application of baseball analytics in a collegiate setting, with focus on identifying and organizing talent from the JUCO level.
 
+## Writing
+
+- **[What Happened to Bobby Miller?](https://medium.com/@joseph.n.digiovanni/what-happened-to-bobby-miller-40a7e400629f)** - A short case study of the sharp decline in performance from Dodgers' RHP Bobby Miller in 2024, and what he worked on in 2025.
+
 ## Technical Skills
 
 - **Programming Languages**: Python, R
