@@ -1,52 +1,63 @@
-# Post-Game Pitching Report
+# Post-Game Pitching Analysis App
 
-## App Description
-   - Interactive dashboard for analyzing pitcher performance from a single game's pitch tracking data
-   - Features: pitch mix analysis with usage percentages, movement profiles (horizontal vs vertical break), pitch location plots with strike zone overlay, and interactive filtering by outcome, batter handedness, and count situation
+Generate a complete post-game pitching report from raw pitch tracking data in seconds.
 
-## Design Choices
+---
 
-### Data Processing
-   - Encoding handling: Attempts multiple encodings (latin-1, cp1252, utf-8-sig) to handle CSV encoding variations; may fail on non-standard formats
-   - Filters out "Undefined" pitch types and pitch calls as they are not useful
-   - Strike zone: Uses fixed approximated dimensions (1.6-3.4 ft height, ±0.83 ft width) based on standard MLB zone. This is an approximation since the dataset lacks sz_top/sz_bottom fields. Zones vary by batter, but provides a consistent visual reference.
-   - Metric calculations: Builds boolean flags from PitchCall codes to identify swings, whiffs, strikes, in-zone pitches, and chases
+## Overview
 
-### Visualizations
-   - Color scheme: Roughly matches Baseball Savant's pitch type colors for familiarity (cutter changed from brown to pink for better visual distinction)
-   - Fixed axis ranges: Movement plots use -24 to 24 inches on both axes to enable consistent comparison across pitchers. Variable ranges would make comparisons misleading.
-   - Strike zone overlay: Red rectangle on location plot provides visual reference for zone boundaries
-   - Plotly: Chosen for interactive hover details and dashboard-friendly output
-   - Legend labels: Include pitch counts to indicate sample sizes for each pitch type
+Analyzing pitcher performance from pitch-tracking data is typically a manual and time-consuming workflow. This project transforms raw CSV pitch data into an interactive scouting report that allows coaches and analysts to quickly evaluate a pitcher’s performance from a single game.
 
-### User Interface
-   - Streamlit framework: Selected for rapid development and built-in interactivity
-   - Wide layout: Side-by-side plots optimize screen space for comparative analysis
-   - Data caching: @st.cache_data decorator prevents data reloading on filter changes, improving performance
-   - Filter organization: Grouped by category (outcome, batter, count) to keep UI manageable
-   - Any issues caused by resizing the page are solved by refreshing
+The application converts pitch-level data into pitch mix summaries, movement profiles, strike zone visualizations, and advanced plate discipline metrics.
 
-### Code Structure
-   - Separation of concerns: Data processing isolated in separate module (data_processor.py) for maintainability
-   - Modular functions: Reusable data loading and aggregation functions
+---
 
-## Assumptions
+## Features
 
-### Data Format
-   - CSV file with standard pitch tracking columns: Pitcher, TaggedPitchType, PitchCall, RelSpeed, SpinRate, HorzBreak, InducedVertBreak, PlateLocSide, PlateLocHeight, Balls, Strikes, BatterSide, etc.
-   - Assumes pitch tracking data is reasonably accurate (classifications, locations, and TaggedPitchType field are correct)
-   - BatterSide field handled flexibly to accommodate syntax variations of future datasets
+- Pitch mix and usage percentage breakdown  
+- Pitch movement visualization (horizontal vs vertical break)  
+- Pitch location plots with strike zone overlay  
+- Interactive filtering by outcome, batter handedness, and count  
+- Automatic calculation of swings, whiffs, strikes, and chases  
+- Fast and interactive dashboard built with Streamlit  
 
-### Metric Definitions
-   - Swing: StrikeSwinging, FoulBall, or InPlay
-   - Strike: Called strike, swinging strike, foul, or ball in play
-   - Whiff: StrikeSwinging (swing and miss)
-   - Chase: Any swing at a pitch outside the strike zone
-   - Count situations: Ahead = more balls than strikes, Behind = more strikes than balls, Even = equal
+---
+
+## Example Dashboard
+
+### Performance Breakdown
+![Performance Breakdown](images/performance_breakdown.png)
+
+### Pitch Location Plot
+![Location Plot](images/location_plot.png)
+
+### Movement Profile
+![Movement Profile](images/movement_profile.png)
+
+### Interactive Filters
+![Filters](images/plots_filters.png)
+
+---
+
+## Technical Highlights
+
+### Robust Data Ingestion
+The app handles messy real-world CSV exports by attempting multiple encodings and filtering unusable records.
+
+### Derived Baseball Metrics
+Swing, whiff, strike, and chase metrics are programmatically derived from pitch-level event data.
+
+### Interactive Visualization
+Plotly dashboards provide consistent axis ranges and hover interactions for deeper exploration.
+
+### Product-Oriented Architecture
+The project separates data processing and UI logic into modular components and uses caching to improve performance.
+
+---
 
 ## Running Locally
-   - Prerequisites: Python 3.7+ with required packages (streamlit, pandas, numpy, plotly)
-   - Installation: `pip install streamlit pandas numpy plotly`
-   - Run: `streamlit run postgame_pitch_app.py`
-   - Application opens in default web browser (typically http://localhost:8501)
 
+Install dependencies:
+
+```bash
+pip install streamlit pandas numpy plotly
