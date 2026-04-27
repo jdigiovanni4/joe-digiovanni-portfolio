@@ -6,27 +6,31 @@
   <title>Joe DiGiovanni — Data Scientist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0a0f;
-      --bg2: #111118;
-      --bg3: #16161f;
-      --accent: #e8e0d0;
-      --accent2: #a09880;
-      --line: rgba(232,224,208,0.1);
-      --line2: rgba(232,224,208,0.06);
-      --white: #f0ece4;
-      --muted: #6b6860;
-      --tag-bg: rgba(232,224,208,0.07);
+      --green-deep:    #0d2818;
+      --green-mid:     #1a4a2e;
+      --green-rich:    #1e5c38;
+      --green-bright:  #2d7a4f;
+      --gold:          #c9a84c;
+      --gold-light:    #e8c97a;
+      --gold-pale:     #f5e6b8;
+      --white:         #f4f0e8;
+      --white-muted:   #c8c4b8;
+      --muted:         #7a7870;
+      --line:          rgba(201,168,76,0.15);
+      --line2:         rgba(201,168,76,0.07);
+      --bg-card:       rgba(13,40,24,0.6);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
+      background: var(--green-deep);
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 300;
@@ -34,18 +38,16 @@
       overflow-x: hidden;
     }
 
-    /* NOISE OVERLAY */
-    body::before {
+    body::after {
       content: '';
       position: fixed;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
       pointer-events: none;
       z-index: 999;
     }
 
-    /* NAV */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -53,188 +55,220 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 4rem;
+      padding: 1.4rem 4rem;
+      backdrop-filter: blur(16px);
+      background: rgba(13,40,24,0.8);
       border-bottom: 1px solid var(--line2);
-      backdrop-filter: blur(12px);
-      background: rgba(10,10,15,0.7);
     }
 
     .nav-logo {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-      letter-spacing: 0.15em;
-      color: var(--white);
+      font-size: 1.5rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
       text-decoration: none;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 
     .nav-links a {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent2);
+      color: var(--white-muted);
       text-decoration: none;
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover { color: var(--gold-light); }
 
     /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 4rem 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 4rem 5rem;
       position: relative;
       overflow: hidden;
+      gap: 3rem;
     }
 
-    .hero-grid-lines {
+    .hero::before {
+      content: '';
       position: absolute;
       inset: 0;
-      background-image:
-        linear-gradient(var(--line2) 1px, transparent 1px),
-        linear-gradient(90deg, var(--line2) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 40%, transparent 100%);
+      background:
+        radial-gradient(ellipse 70% 80% at 70% 60%, rgba(45,122,79,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 20% 40%, rgba(26,74,46,0.5) 0%, transparent 60%),
+        linear-gradient(135deg, var(--green-deep) 0%, #0f3320 50%, #162b1e 100%);
+      z-index: 0;
     }
 
-    .hero-glow {
+    .hero::after {
+      content: '';
       position: absolute;
-      bottom: -20%;
-      left: 10%;
-      width: 60%;
-      height: 60%;
-      background: radial-gradient(ellipse, rgba(232,224,208,0.04) 0%, transparent 70%);
+      bottom: -10%; right: 15%;
+      width: 500px; height: 500px;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 65%);
       pointer-events: none;
+      z-index: 0;
     }
+
+    .hero-left { position: relative; z-index: 2; }
 
     .hero-eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.2s;
     }
 
     .hero-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 12vw, 11rem);
-      line-height: 0.9;
-      letter-spacing: 0.02em;
+      font-size: clamp(4.5rem, 9vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.03em;
       color: var(--white);
       opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.4s;
+      animation: fadeUp 0.9s ease forwards 0.35s;
     }
 
-    .hero-name span {
-      display: block;
-      color: var(--accent2);
+    .hero-name .last { color: var(--gold); display: block; }
+
+    .hero-divider {
+      width: 60px; height: 3px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin: 1.75rem 0;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.5s;
     }
 
     .hero-tagline {
-      margin-top: 2rem;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 300;
-      color: var(--accent2);
-      max-width: 480px;
-      line-height: 1.7;
+      color: var(--white-muted);
+      max-width: 420px;
+      line-height: 1.8;
       opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.6s;
+      animation: fadeUp 0.9s ease forwards 0.65s;
     }
 
     .hero-cta {
-      margin-top: 2.5rem;
+      margin-top: 2.25rem;
       display: flex;
       gap: 1rem;
-      align-items: center;
+      flex-wrap: wrap;
       opacity: 0;
       animation: fadeUp 0.9s ease forwards 0.8s;
     }
 
-    .btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 0.85rem 2rem;
-      text-decoration: none;
-      border: 1px solid var(--accent);
-      color: var(--bg);
-      background: var(--accent);
-      transition: all 0.2s;
-      display: inline-block;
+    /* PHOTO */
+    .hero-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn 1.1s ease forwards 0.9s;
     }
 
-    .btn:hover {
-      background: transparent;
-      color: var(--accent);
+    .photo-frame {
+      position: relative;
+      width: 340px;
+      height: 420px;
     }
 
-    .btn-ghost {
-      background: transparent;
-      color: var(--accent2);
-      border-color: var(--line);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--accent2);
-      color: var(--white);
-      background: transparent;
-    }
-
-    /* SCROLL INDICATOR */
-    .scroll-hint {
+    .photo-frame::before {
+      content: '';
       position: absolute;
-      bottom: 2.5rem;
-      right: 4rem;
+      top: -12px; right: -12px;
+      width: 100%; height: 100%;
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      opacity: 0.35;
+    }
+
+    .photo-frame::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: -8px;
+      width: 55%; height: 55%;
+      border-bottom: 2px solid var(--gold-light);
+      border-left: 2px solid var(--gold-light);
+      border-radius: 0 0 0 10px;
+      opacity: 0.2;
+    }
+
+    .photo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+      background: linear-gradient(160deg, var(--green-mid) 0%, var(--green-rich) 60%, var(--green-deep) 100%);
+      border: 1px solid rgba(201,168,76,0.2);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 1.4s;
+      justify-content: center;
+      gap: 0.75rem;
+      overflow: hidden;
     }
 
-    .scroll-hint span {
+    .photo-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .photo-placeholder-text {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--muted);
-      writing-mode: vertical-rl;
+      color: var(--gold);
+      opacity: 0.5;
+      text-align: center;
     }
 
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--accent2), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
+    /* BUTTONS */
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.75rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.22s;
+      cursor: pointer;
+      border: none;
     }
+
+    .btn-primary { background: var(--gold); color: var(--green-deep); font-weight: 500; }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+    .btn-ghost { background: transparent; color: var(--white-muted); border: 1px solid var(--line); }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
 
     /* SECTIONS */
-    section {
-      padding: 7rem 4rem;
-      border-top: 1px solid var(--line2);
-    }
+    section { padding: 7rem 4rem; border-top: 1px solid var(--line2); position: relative; }
 
     .section-label {
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 1rem;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
     }
 
     .section-title {
@@ -247,89 +281,62 @@
     }
 
     /* ABOUT */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: start; }
 
-    .about-body {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--accent2);
-      line-height: 1.85;
-    }
-
+    .about-body { font-size: 1rem; font-weight: 300; color: var(--white-muted); line-height: 1.9; }
     .about-body p + p { margin-top: 1.2rem; }
+    .about-body strong { color: var(--white); font-weight: 400; }
 
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-    }
+    .skills-stack { display: flex; flex-direction: column; gap: 1.75rem; }
 
     .skill-group-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
     }
 
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 
     .tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      padding: 0.35rem 0.75rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.7rem;
       border: 1px solid var(--line);
-      color: var(--accent2);
-      background: var(--tag-bg);
+      color: var(--white-muted);
+      background: var(--bg-card);
+      border-radius: 2px;
     }
 
     /* PROJECTS */
-    .projects-list { display: flex; flex-direction: column; gap: 0; }
+    .projects-list { display: flex; flex-direction: column; }
 
     .project-item {
       display: grid;
-      grid-template-columns: 80px 1fr auto;
+      grid-template-columns: 64px 1fr 32px;
       align-items: start;
       gap: 2rem;
-      padding: 2.5rem 0;
+      padding: 2.5rem 1rem;
       border-bottom: 1px solid var(--line2);
-      text-decoration: none;
-      transition: background 0.2s;
       cursor: pointer;
       position: relative;
+      transition: background 0.2s;
+      text-decoration: none;
     }
 
-    .project-item::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--line2);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .project-item:hover::before { opacity: 1; }
+    .project-item:hover { background: rgba(201,168,76,0.04); }
 
     .project-num {
       font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      padding-top: 0.2rem;
+      font-size: 0.65rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      padding-top: 0.3rem;
+      opacity: 0.7;
     }
-
-    .project-body { position: relative; z-index: 1; }
 
     .project-title {
       font-family: 'Bebas Neue', sans-serif;
@@ -337,113 +344,97 @@
       letter-spacing: 0.05em;
       color: var(--white);
       line-height: 1;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.55rem;
       transition: color 0.2s;
     }
 
-    .project-item:hover .project-title { color: var(--accent); }
+    .project-item:hover .project-title { color: var(--gold-light); }
 
     .project-desc {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 300;
       color: var(--muted);
-      max-width: 600px;
-      line-height: 1.65;
-      margin-bottom: 0.8rem;
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
     }
 
-    .project-tags {
-      display: flex;
-      gap: 0.4rem;
-      flex-wrap: wrap;
-    }
+    .project-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
 
     .project-arrow {
-      font-size: 1.2rem;
       color: var(--muted);
+      font-size: 1rem;
       transition: all 0.2s;
-      position: relative;
-      z-index: 1;
       align-self: center;
     }
 
-    .project-item:hover .project-arrow {
-      color: var(--white);
-      transform: translate(4px, -4px);
-    }
+    .project-item:hover .project-arrow { color: var(--gold); transform: translate(3px,-3px); }
 
-    .project-status {
+    .badge {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      padding: 0.25rem 0.6rem;
-      border: 1px solid rgba(232,224,208,0.2);
-      color: var(--accent2);
-      display: inline-block;
-      margin-left: 0.5rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid rgba(201,168,76,0.35);
+      color: var(--gold);
+      border-radius: 2px;
+      margin-left: 0.6rem;
       vertical-align: middle;
+      position: relative;
+      top: -2px;
     }
 
     /* CONTACT */
-    .contact-inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: end;
-    }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
 
-    .contact-body {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: var(--accent2);
-      line-height: 1.85;
-      margin-bottom: 2rem;
-    }
+    .contact-body { font-size: 1rem; font-weight: 300; color: var(--white-muted); line-height: 1.85; margin-bottom: 2rem; }
 
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
 
     .contact-link {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
       text-decoration: none;
       padding: 1rem 1.25rem;
-      border: 1px solid var(--line);
-      color: var(--accent2);
+      border: 1px solid var(--line2);
+      background: var(--bg-card);
+      color: var(--white-muted);
       transition: all 0.2s;
-      font-size: 0.9rem;
+      border-radius: 4px;
     }
 
-    .contact-link:hover {
-      border-color: var(--accent2);
-      color: var(--white);
-      background: var(--tag-bg);
-    }
+    .contact-link:hover { border-color: var(--gold); color: var(--white); background: rgba(201,168,76,0.06); }
+
+    .contact-link-icon { font-size: 0.85rem; color: var(--gold); opacity: 0.7; width: 20px; text-align: center; }
+
+    .contact-link-inner { display: flex; flex-direction: column; gap: 0.15rem; }
 
     .contact-link-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      display: block;
-      margin-bottom: 0.2rem;
     }
 
-    .contact-cta-block {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .contact-link-value { font-size: 0.9rem; }
+
+    .contact-right { display: flex; flex-direction: column; gap: 1.5rem; }
+
+    .contact-cta-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.1;
+      color: var(--white);
+      letter-spacing: 0.04em;
     }
 
-    /* FOOTER */
+    .contact-cta-text span { color: var(--gold); }
+
     footer {
-      padding: 2rem 4rem;
+      padding: 1.75rem 4rem;
       border-top: 1px solid var(--line2);
       display: flex;
       justify-content: space-between;
@@ -452,14 +443,13 @@
 
     footer p {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       letter-spacing: 0.1em;
       color: var(--muted);
     }
 
-    /* ANIMATIONS */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
@@ -468,30 +458,23 @@
       to   { opacity: 1; }
     }
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50%       { opacity: 1;   transform: scaleY(1.1); }
-    }
-
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(18px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
     }
 
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       nav { padding: 1.25rem 1.5rem; }
       .nav-links { gap: 1.5rem; }
-      .hero { padding: 0 1.5rem 4rem; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; }
+      .hero-right { order: -1; }
+      .photo-frame { width: 240px; height: 300px; }
       section { padding: 5rem 1.5rem; }
-      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
-      .project-item { grid-template-columns: 50px 1fr; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .project-item { grid-template-columns: 48px 1fr; }
       .project-arrow { display: none; }
       footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     }
@@ -499,99 +482,96 @@
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <a href="#" class="nav-logo">JDG</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Work</a></li>
       <li><a href="#contact">Contact</a></li>
-      <li><a href="docs/resume.pdf" target="_blank">Résumé</a></li>
+      <li><a href="resume.pdf" target="_blank">Résumé</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="hero-grid-lines"></div>
-    <div class="hero-glow"></div>
-
-    <p class="hero-eyebrow">Data Scientist · Los Angeles, CA</p>
-
-    <h1 class="hero-name">
-      Joe<br />
-      <span>DiGiovanni</span>
-    </h1>
-
-    <p class="hero-tagline">
-      <!-- FILL IN: Your one-sentence positioning statement goes here. What kind of DS work do you do? What sets you apart? -->
-      Building data-driven systems that turn complex, messy problems into decisions that matter.
-    </p>
-
-    <div class="hero-cta">
-      <a href="#projects" class="btn">View Work</a>
-      <a href="docs/resume.pdf" target="_blank" class="btn btn-ghost">Download Résumé</a>
+  <section class="hero" id="hero" style="border-top:none;">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Data Scientist &nbsp;·&nbsp; Los Angeles, CA</p>
+      <h1 class="hero-name">
+        Joe<br />
+        <span class="last">DiGiovanni</span>
+      </h1>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline">
+        <!-- FILL IN: Your positioning statement. 1–2 sentences. What do you build and why does it matter? -->
+        Building data-driven systems that turn complex, messy problems into decisions that matter.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Work</a>
+        <a href="resume.pdf" target="_blank" class="btn btn-ghost">Download Résumé</a>
+      </div>
     </div>
 
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
+    <div class="hero-right">
+      <div class="photo-frame">
+        <div class="photo-inner">
+          <!--
+            ADD YOUR PHOTO:
+            Replace everything inside .photo-inner with:
+            <img src="your-photo.jpg" alt="Joe DiGiovanni" />
+            Save your photo in the same folder as this index.html (docs/)
+          -->
+          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.35)" stroke-width="1" stroke-linecap="round">
+            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+          <p class="photo-placeholder-text">Your photo here</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about">
     <p class="section-label reveal">Background</p>
-    <h2 class="section-title reveal">About</h2>
-
+    <h2 class="section-title reveal">About Me</h2>
     <div class="about-grid">
       <div class="about-body reveal">
         <p>
-          <!-- FILL IN: 2–3 sentences. Who you are, what you do, your approach. Don't use "passionate." -->
+          <!-- FILL IN: Who you are, your training, your approach. -->
           M.S. in Applied Data Science from the University of Chicago. I build end-to-end ML systems — from raw data pipelines to production-ready models — across domains including healthcare, transportation, and sports analytics.
         </p>
         <p>
-          <!-- FILL IN: Something specific about how you work or think. A perspective, not a buzzword. -->
-          I care about decisions, not just models. That means understanding what a prediction is actually for — and building around the real-world context it lives in.
+          <!-- FILL IN: How you think. A perspective, not a keyword list. -->
+          I care about <strong>decisions, not just models</strong>. That means understanding what a prediction is actually for — and building systems around the real-world context they live in.
         </p>
+        <p>Based in Los Angeles. Open to roles in LA, Chicago, and New York.</p>
       </div>
-
-      <div class="skills-grid reveal">
+      <div class="skills-stack reveal">
         <div>
           <p class="skill-group-label">Languages</p>
           <div class="skill-tags">
-            <span class="tag">Python</span>
-            <span class="tag">SQL</span>
-            <span class="tag">R</span>
+            <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">R</span>
           </div>
         </div>
         <div>
-          <p class="skill-group-label">ML / Modeling</p>
+          <p class="skill-group-label">ML & Modeling</p>
           <div class="skill-tags">
-            <span class="tag">XGBoost</span>
-            <span class="tag">Cox PH</span>
-            <span class="tag">GAMs</span>
-            <span class="tag">NLP</span>
-            <span class="tag">Computer Vision</span>
-            <span class="tag">Bayesian</span>
+            <span class="tag">XGBoost</span><span class="tag">Cox PH</span><span class="tag">GAMs</span>
+            <span class="tag">NLP</span><span class="tag">Computer Vision</span>
+            <span class="tag">Bayesian Hierarchical</span><span class="tag">Survival Analysis</span>
           </div>
         </div>
         <div>
           <p class="skill-group-label">Stack</p>
           <div class="skill-tags">
-            <span class="tag">PyTorch</span>
-            <span class="tag">scikit-learn</span>
-            <span class="tag">Pandas</span>
-            <span class="tag">FastAPI</span>
-            <span class="tag">Streamlit</span>
+            <span class="tag">PyTorch</span><span class="tag">scikit-learn</span>
+            <span class="tag">Pandas</span><span class="tag">FastAPI</span><span class="tag">Streamlit</span>
           </div>
         </div>
         <div>
           <p class="skill-group-label">Infrastructure</p>
           <div class="skill-tags">
-            <span class="tag">AWS</span>
-            <span class="tag">Docker</span>
-            <span class="tag">PostgreSQL</span>
-            <span class="tag">Git</span>
+            <span class="tag">AWS</span><span class="tag">Docker</span>
+            <span class="tag">PostgreSQL</span><span class="tag">Git</span>
           </div>
         </div>
       </div>
@@ -602,84 +582,67 @@
   <section id="projects">
     <p class="section-label reveal">Selected Work</p>
     <h2 class="section-title reveal">Projects</h2>
-
     <div class="projects-list">
 
-      <!-- PROJECT 1: RAG -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/rag-utility-doc-processor', '_blank')">
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/rag-utility-doc-processor','_blank')">
         <span class="project-num">01</span>
-        <div class="project-body">
+        <div>
           <h3 class="project-title">RAG Document Processor</h3>
-          <p class="project-desc">
-            <!-- FILL IN: What problem, what method, what result. 1–2 sentences. -->
+          <p class="project-desc"><!-- FILL IN: Problem → method → result. -->
             Retrieval-augmented generation pipeline for processing and querying large document corpora. Built with vector embeddings, semantic chunking, and a FastAPI backend.
           </p>
           <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">LLM</span>
-            <span class="tag">Vector DB</span>
-            <span class="tag">FastAPI</span>
+            <span class="tag">Python</span><span class="tag">LLM</span>
+            <span class="tag">Vector DB</span><span class="tag">FastAPI</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
 
-      <!-- PROJECT 2: FLIGHT DELAY -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4', '_blank')">
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
         <span class="project-num">02</span>
-        <div class="project-body">
+        <div>
           <h3 class="project-title">Flight Delay Propagation</h3>
-          <p class="project-desc">
-            <!-- FILL IN -->
-            Spatiotemporal modeling of cascading flight delay across the U.S. air network. Analyzed how initial disruptions propagate through interconnected routes and airports.
+          <p class="project-desc"><!-- FILL IN -->
+            Spatiotemporal modeling of cascading flight delays across the U.S. air network. Analyzed how initial disruptions propagate through interconnected routes over time.
           </p>
           <div class="project-tags">
-            <span class="tag">Spatiotemporal ML</span>
-            <span class="tag">Network Analysis</span>
-            <span class="tag">Python</span>
+            <span class="tag">Spatiotemporal ML</span><span class="tag">Network Analysis</span><span class="tag">Python</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
 
-      <!-- PROJECT 3: PITCHER POSTGAME -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4', '_blank')">
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
         <span class="project-num">03</span>
-        <div class="project-body">
+        <div>
           <h3 class="project-title">Pitcher Postgame Analysis</h3>
-          <p class="project-desc">
-            <!-- FILL IN -->
-            Automated postgame scouting report system for starting pitchers. Integrates pitch-level data to surface arsenal effectiveness, location patterns, and sequencing tendencies.
+          <p class="project-desc"><!-- FILL IN -->
+            Automated postgame scouting system for starting pitchers. Integrates pitch-level tracking data to surface arsenal effectiveness, location patterns, and sequencing tendencies.
           </p>
           <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Data Viz</span>
-            <span class="tag">Statcast</span>
-            <span class="tag">NLP</span>
+            <span class="tag">Python</span><span class="tag">Statcast</span>
+            <span class="tag">Data Viz</span><span class="tag">NLP</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
 
-      <!-- PROJECT 4: TUNNELING — PEER REVIEW -->
-      <div class="project-item reveal">
+      <div class="project-item reveal" style="cursor:default;">
         <span class="project-num">04</span>
-        <div class="project-body">
+        <div>
           <h3 class="project-title">
             Pitch Tunneling Research
-            <span class="project-status">Under Review</span>
+            <span class="badge">Under Review</span>
           </h3>
-          <p class="project-desc">
-            <!-- FILL IN: Describe the research question and methodology without overselling. Keep it grounded. -->
-            Academic paper examining pitch tunneling mechanics and their relationship to deception and whiff rate. Co-authored research currently under peer review.
+          <p class="project-desc"><!-- FILL IN -->
+            Academic paper examining pitch tunneling mechanics and their relationship to deception and swing-and-miss rate. Co-authored; currently under peer review.
           </p>
           <div class="project-tags">
-            <span class="tag">Research</span>
-            <span class="tag">Biomechanics</span>
-            <span class="tag">Statistical Modeling</span>
+            <span class="tag">Research</span><span class="tag">Statistical Modeling</span><span class="tag">Biomechanics</span>
           </div>
         </div>
-        <!-- No arrow — not linkable yet -->
+        <span></span>
       </div>
 
     </div>
@@ -689,76 +652,73 @@
   <section id="contact">
     <p class="section-label reveal">Get In Touch</p>
     <h2 class="section-title reveal">Contact</h2>
-
-    <div class="contact-inner">
+    <div class="contact-grid">
       <div>
         <p class="contact-body reveal">
-          <!-- FILL IN: Brief, direct note about what you're looking for. -->
+          <!-- FILL IN: Brief, direct. What are you looking for? -->
           Open to data science roles in Los Angeles, Chicago, and New York. I move fast, go deep, and care about the work.
         </p>
-
         <div class="contact-links reveal">
-          <a href="mailto:jdigiovanni4@gmail.com" class="contact-link">
-            <div>
+          <a href="mailto:YOUR_EMAIL" class="contact-link">
+            <span class="contact-link-icon">✉</span>
+            <div class="contact-link-inner">
               <span class="contact-link-label">Email</span>
-              jdigiovanni4@gmail.com
+              <span class="contact-link-value"><!-- FILL IN --></span>
             </div>
           </a>
-          <a href="https://linkedin.com/in/joe-digiovanni" target="_blank" class="contact-link">
-            <div>
+          <a href="https://linkedin.com/in/YOUR_HANDLE" target="_blank" class="contact-link">
+            <span class="contact-link-icon">in</span>
+            <div class="contact-link-inner">
               <span class="contact-link-label">LinkedIn</span>
-              joe-digiovanni
+              <span class="contact-link-value"><!-- FILL IN --></span>
             </div>
           </a>
           <a href="https://github.com/jdigiovanni4" target="_blank" class="contact-link">
-            <div>
+            <span class="contact-link-icon">⌥</span>
+            <div class="contact-link-inner">
               <span class="contact-link-label">GitHub</span>
-              jdigiovanni4
+              <span class="contact-link-value">jdigiovanni4</span>
             </div>
           </a>
         </div>
       </div>
-
-      <div class="contact-cta-block reveal">
-        <a href="docs/resume.pdf" target="_blank" class="btn" style="text-align:center;">Download Résumé</a>
+      <div class="contact-right reveal">
+        <p class="contact-cta-text">
+          Let's build something<br /><span>worth talking about.</span>
+        </p>
+        <a href="resume.pdf" target="_blank" class="btn btn-primary" style="align-self:flex-start;">
+          Download Résumé
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2025 Joe DiGiovanni</p>
-    <p>Built with HTML/CSS · Hosted on GitHub Pages</p>
+    <p>Built with HTML · Hosted on GitHub Pages</p>
   </footer>
 
   <script>
-    // Intersection Observer for reveal animations
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          setTimeout(() => entry.target.classList.add('visible'), i * 70);
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.1 });
-
+    }, { threshold: 0.08 });
     reveals.forEach(el => observer.observe(el));
 
-    // Smooth nav active state
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
-
     window.addEventListener('scroll', () => {
       let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 100) current = s.id;
-      });
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
       navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--white)' : '';
+        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--gold-light)' : '';
       });
     });
   </script>
-
 </body>
 </html>
