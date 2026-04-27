@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joe DiGiovanni — Data Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #16161f;
+      --accent: #e8e0d0;
+      --accent2: #a09880;
+      --line: rgba(232,224,208,0.1);
+      --line2: rgba(232,224,208,0.06);
+      --white: #f0ece4;
+      --muted: #6b6860;
+      --tag-bg: rgba(232,224,208,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NOISE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      border-bottom: 1px solid var(--line2);
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,15,0.7);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 4rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--line2) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line2) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 100%, black 40%, transparent 100%);
+    }
+
+    .hero-glow {
+      position: absolute;
+      bottom: -20%;
+      left: 10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(232,224,208,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 12vw, 11rem);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.4s;
+    }
+
+    .hero-name span {
+      display: block;
+      color: var(--accent2);
+    }
+
+    .hero-tagline {
+      margin-top: 2rem;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--accent2);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.6s;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s ease forwards 0.8s;
+    }
+
+    .btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      color: var(--bg);
+      background: var(--accent);
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent2);
+      border-color: var(--line);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent2);
+      color: var(--white);
+      background: transparent;
+    }
+
+    /* SCROLL INDICATOR */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.4s;
+    }
+
+    .scroll-hint span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--accent2), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--line2);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: var(--white);
+      margin-bottom: 3rem;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about-body {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--accent2);
+      line-height: 1.85;
+    }
+
+    .about-body p + p { margin-top: 1.2rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .skill-group-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--line);
+      color: var(--accent2);
+      background: var(--tag-bg);
+    }
+
+    /* PROJECTS */
+    .projects-list { display: flex; flex-direction: column; gap: 0; }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: start;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--line2);
+      text-decoration: none;
+      transition: background 0.2s;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .project-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--line2);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .project-item:hover::before { opacity: 1; }
+
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding-top: 0.2rem;
+    }
+
+    .project-body { position: relative; z-index: 1; }
+
+    .project-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+      transition: color 0.2s;
+    }
+
+    .project-item:hover .project-title { color: var(--accent); }
+
+    .project-desc {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.65;
+      margin-bottom: 0.8rem;
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .project-arrow {
+      font-size: 1.2rem;
+      color: var(--muted);
+      transition: all 0.2s;
+      position: relative;
+      z-index: 1;
+      align-self: center;
+    }
+
+    .project-item:hover .project-arrow {
+      color: var(--white);
+      transform: translate(4px, -4px);
+    }
+
+    .project-status {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid rgba(232,224,208,0.2);
+      color: var(--accent2);
+      display: inline-block;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* CONTACT */
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: end;
+    }
+
+    .contact-body {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--accent2);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--line);
+      color: var(--accent2);
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent2);
+      color: var(--white);
+      background: var(--tag-bg);
+    }
+
+    .contact-link-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-cta-block {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--line2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.1); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { gap: 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      section { padding: 5rem 1.5rem; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .project-item { grid-template-columns: 50px 1fr; }
+      .project-arrow { display: none; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">JDG</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="docs/resume.pdf" target="_blank">Résumé</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-grid-lines"></div>
+    <div class="hero-glow"></div>
+
+    <p class="hero-eyebrow">Data Scientist · Los Angeles, CA</p>
+
+    <h1 class="hero-name">
+      Joe<br />
+      <span>DiGiovanni</span>
+    </h1>
+
+    <p class="hero-tagline">
+      <!-- FILL IN: Your one-sentence positioning statement goes here. What kind of DS work do you do? What sets you apart? -->
+      Building data-driven systems that turn complex, messy problems into decisions that matter.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#projects" class="btn">View Work</a>
+      <a href="docs/resume.pdf" target="_blank" class="btn btn-ghost">Download Résumé</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label reveal">Background</p>
+    <h2 class="section-title reveal">About</h2>
+
+    <div class="about-grid">
+      <div class="about-body reveal">
+        <p>
+          <!-- FILL IN: 2–3 sentences. Who you are, what you do, your approach. Don't use "passionate." -->
+          M.S. in Applied Data Science from the University of Chicago. I build end-to-end ML systems — from raw data pipelines to production-ready models — across domains including healthcare, transportation, and sports analytics.
+        </p>
+        <p>
+          <!-- FILL IN: Something specific about how you work or think. A perspective, not a buzzword. -->
+          I care about decisions, not just models. That means understanding what a prediction is actually for — and building around the real-world context it lives in.
+        </p>
+      </div>
+
+      <div class="skills-grid reveal">
+        <div>
+          <p class="skill-group-label">Languages</p>
+          <div class="skill-tags">
+            <span class="tag">Python</span>
+            <span class="tag">SQL</span>
+            <span class="tag">R</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">ML / Modeling</p>
+          <div class="skill-tags">
+            <span class="tag">XGBoost</span>
+            <span class="tag">Cox PH</span>
+            <span class="tag">GAMs</span>
+            <span class="tag">NLP</span>
+            <span class="tag">Computer Vision</span>
+            <span class="tag">Bayesian</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Stack</p>
+          <div class="skill-tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">scikit-learn</span>
+            <span class="tag">Pandas</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">Streamlit</span>
+          </div>
+        </div>
+        <div>
+          <p class="skill-group-label">Infrastructure</p>
+          <div class="skill-tags">
+            <span class="tag">AWS</span>
+            <span class="tag">Docker</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label reveal">Selected Work</p>
+    <h2 class="section-title reveal">Projects</h2>
+
+    <div class="projects-list">
+
+      <!-- PROJECT 1: RAG -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/rag-utility-doc-processor', '_blank')">
+        <span class="project-num">01</span>
+        <div class="project-body">
+          <h3 class="project-title">RAG Document Processor</h3>
+          <p class="project-desc">
+            <!-- FILL IN: What problem, what method, what result. 1–2 sentences. -->
+            Retrieval-augmented generation pipeline for processing and querying large document corpora. Built with vector embeddings, semantic chunking, and a FastAPI backend.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Vector DB</span>
+            <span class="tag">FastAPI</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <!-- PROJECT 2: FLIGHT DELAY -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4', '_blank')">
+        <span class="project-num">02</span>
+        <div class="project-body">
+          <h3 class="project-title">Flight Delay Propagation</h3>
+          <p class="project-desc">
+            <!-- FILL IN -->
+            Spatiotemporal modeling of cascading flight delay across the U.S. air network. Analyzed how initial disruptions propagate through interconnected routes and airports.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Spatiotemporal ML</span>
+            <span class="tag">Network Analysis</span>
+            <span class="tag">Python</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <!-- PROJECT 3: PITCHER POSTGAME -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4', '_blank')">
+        <span class="project-num">03</span>
+        <div class="project-body">
+          <h3 class="project-title">Pitcher Postgame Analysis</h3>
+          <p class="project-desc">
+            <!-- FILL IN -->
+            Automated postgame scouting report system for starting pitchers. Integrates pitch-level data to surface arsenal effectiveness, location patterns, and sequencing tendencies.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Data Viz</span>
+            <span class="tag">Statcast</span>
+            <span class="tag">NLP</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+
+      <!-- PROJECT 4: TUNNELING — PEER REVIEW -->
+      <div class="project-item reveal">
+        <span class="project-num">04</span>
+        <div class="project-body">
+          <h3 class="project-title">
+            Pitch Tunneling Research
+            <span class="project-status">Under Review</span>
+          </h3>
+          <p class="project-desc">
+            <!-- FILL IN: Describe the research question and methodology without overselling. Keep it grounded. -->
+            Academic paper examining pitch tunneling mechanics and their relationship to deception and whiff rate. Co-authored research currently under peer review.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Research</span>
+            <span class="tag">Biomechanics</span>
+            <span class="tag">Statistical Modeling</span>
+          </div>
+        </div>
+        <!-- No arrow — not linkable yet -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="section-title reveal">Contact</h2>
+
+    <div class="contact-inner">
+      <div>
+        <p class="contact-body reveal">
+          <!-- FILL IN: Brief, direct note about what you're looking for. -->
+          Open to data science roles in Los Angeles, Chicago, and New York. I move fast, go deep, and care about the work.
+        </p>
+
+        <div class="contact-links reveal">
+          <a href="mailto:jdigiovanni4@gmail.com" class="contact-link">
+            <div>
+              <span class="contact-link-label">Email</span>
+              jdigiovanni4@gmail.com
+            </div>
+          </a>
+          <a href="https://linkedin.com/in/joe-digiovanni" target="_blank" class="contact-link">
+            <div>
+              <span class="contact-link-label">LinkedIn</span>
+              joe-digiovanni
+            </div>
+          </a>
+          <a href="https://github.com/jdigiovanni4" target="_blank" class="contact-link">
+            <div>
+              <span class="contact-link-label">GitHub</span>
+              jdigiovanni4
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-cta-block reveal">
+        <a href="docs/resume.pdf" target="_blank" class="btn" style="text-align:center;">Download Résumé</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Joe DiGiovanni</p>
+    <p>Built with HTML/CSS · Hosted on GitHub Pages</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Smooth nav active state
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 100) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--white)' : '';
+      });
+    });
+  </script>
+
+</body>
+</html>
