@@ -50,7 +50,11 @@
 
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0; 
+      left: 50%; 
+      transform: translateX(-50%); /* Centers the fixed nav */
+      width: 100%;
+      max-width: 1400px; /* Prevents it from getting too wide */
       z-index: 100;
       display: flex;
       justify-content: space-between;
@@ -87,12 +91,12 @@
     .hero {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 0.9fr; /* Slightly favors the text side */
       align-items: center;
       padding: 7rem 4rem 5rem;
-      position: relative;
-      overflow: hidden;
-      gap: 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 4rem; /* More breathing room between text and photo */
     }
 
     .hero::before {
@@ -260,8 +264,13 @@
     .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
 
     /* SECTIONS */
-    section { padding: 7rem 4rem; border-top: 1px solid var(--line2); position: relative; }
-
+    section { 
+      padding: 7rem 4rem; 
+      border-top: 1px solid var(--line2); 
+      position: relative; 
+      max-width: 1400px; /* Tightens the content area */
+      margin: 0 auto;    /* Centers the section */
+    }
     .section-label {
       font-family: 'DM Mono', monospace;
       font-size: 0.65rem;
@@ -574,68 +583,52 @@
     <h2 class="section-title reveal">Projects</h2>
     <div class="projects-list">
 
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/rag-utility-doc-processor','_blank')">
+      <!-- Project 01: FullCount AI -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
         <span class="project-num">01</span>
         <div>
-          <h3 class="project-title">RAG Document Processor</h3>
-          <p class="project-desc"><!-- FILL IN: Problem → method → result. -->
-            Retrieval-augmented generation pipeline for processing and querying large document corpora. Built with vector embeddings, semantic chunking, and a FastAPI backend.
+          <h3 class="project-title">FullCount AI <span class="badge">Founder</span></h3>
+          <p class="project-desc">
+            A public-facing platform enabling non-technical users to query complex Statcast data via natural language. I re-architected the system around a deterministic DuckDB routing layer to eliminate LLM SQL hallucinations, prioritizing verifiable correctness over "best-effort" chat outputs.
           </p>
           <div class="project-tags">
-            <span class="tag">Python</span><span class="tag">LLM</span>
-            <span class="tag">Vector DB</span><span class="tag">FastAPI</span>
+            <span class="tag">LLMs</span><span class="tag">DuckDB</span><span class="tag">FastAPI</span><span class="tag">Statcast</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
-
+    
+      <!-- Project 02: UChicago Capstone -->
       <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
         <span class="project-num">02</span>
         <div>
-          <h3 class="project-title">Flight Delay Propagation</h3>
-          <p class="project-desc"><!-- FILL IN -->
-            Spatiotemporal modeling of cascading flight delays across the U.S. air network. Analyzed how initial disruptions propagate through interconnected routes over time.
+          <h3 class="project-title">AI Pipeline Engineer <span class="badge">Best in Show</span></h3>
+          <p class="project-desc">
+            Led the design of an end-to-end system for processing 1,000+ heterogeneous financial and legal documents. Replaced a manual review process (hours per query) with a RAG-powered interface that returns sub-second results from previously unqueryable corpora.
           </p>
           <div class="project-tags">
-            <span class="tag">Spatiotemporal ML</span><span class="tag">Network Analysis</span><span class="tag">Python</span>
+            <span class="tag">OCR</span><span class="tag">RAG</span><span class="tag">Python</span><span class="tag">System Design</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
-
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
+    
+      <!-- Project 03: Pitch Tunneling -->
+      <div class="project-item reveal" style="cursor:default;">
         <span class="project-num">03</span>
         <div>
-          <h3 class="project-title">Pitcher Postgame Analysis</h3>
-          <p class="project-desc"><!-- FILL IN -->
-            Automated postgame analysis system evaluating pitcher performance from the previous day's game. Integrates pitch-level tracking data to surface arsenal effectiveness, location patterns, and opposing batted-ball outcomes.
+          <h3 class="project-title">MLB Pitch Tunneling Research</h3>
+          <p class="project-desc">
+            Independent research defining measurable constructs for pitch deception. By building a feature framework from first principles, I achieved a 150% improvement in model $R^2$ while maintaining the domain validity required for professional coaching applications[cite: 2].
           </p>
           <div class="project-tags">
-            <span class="tag">Python</span><span class="tag">Statcast</span>
-            <span class="tag">Data Viz</span><span class="tag">NLP</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </div>
-
-      <div class="project-item reveal" style="cursor:default;">
-        <span class="project-num">04</span>
-        <div>
-          <h3 class="project-title">
-            Pitch Tunneling Research
-            <span class="badge">Under Review</span>
-          </h3>
-          <p class="project-desc"><!-- FILL IN -->
-            Academic paper examining pitch tunneling mechanics and their relationship to deception and swing-and-miss rate. Co-authored; currently under peer review.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Research</span><span class="tag">Statistical Modeling</span><span class="tag">Biomechanics</span>
+            <span class="tag">Causal Inference</span><span class="tag">Feature Engineering</span><span class="tag">Statistical Modeling</span>
           </div>
         </div>
         <span></span>
       </div>
 
-    </div>
+</div>
   </section>
 
   <!-- CONTACT -->
