@@ -89,14 +89,14 @@
 
     /* HERO */
     .hero {
-      min-height: 100vh;
+      min-height: 80vh; /* Reduced from 100vh to remove excessive empty space */
       display: grid;
-      grid-template-columns: 1.1fr 0.9fr; /* Slightly favors the text side */
+      grid-template-columns: 1.1fr 0.9fr;
       align-items: center;
-      padding: 7rem 4rem 5rem;
-      max-width: 1400px;
+      padding: 5rem 4rem 2rem;
+      max-width: 1200px;
       margin: 0 auto;
-      gap: 4rem; /* More breathing room between text and photo */
+      gap: 3rem;
     }
 
     .hero::before {
@@ -265,11 +265,11 @@
 
     /* SECTIONS */
     section { 
-      padding: 7rem 4rem; 
+      padding: 4rem 4rem; /* Reduced from 7rem to tighten vertical flow */
       border-top: 1px solid var(--line2); 
       position: relative; 
-      max-width: 1400px; /* Tightens the content area */
-      margin: 0 auto;    /* Centers the section */
+      max-width: 1200px; /* Narrower container for better readability */
+      margin: 0 auto; 
     }
     .section-label {
       font-family: 'DM Mono', monospace;
@@ -292,7 +292,7 @@
     /* ABOUT */
     .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: start; }
 
-    .about-body { font-size: 1rem; font-weight: 300; color: var(--white-muted); line-height: 1.9; }
+    .about-body {font-size: 1.1rem; color: var(--white-muted); line-height: 1.8; }   
     .about-body p + p { margin-top: 1.2rem; }
     .about-body strong { color: var(--white); font-weight: 400; }
 
@@ -360,12 +360,12 @@
     .project-item:hover .project-title { color: var(--gold-light); }
 
     .project-desc {
-      font-size: 0.88rem;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 580px;
-      line-height: 1.7;
-      margin-bottom: 0.75rem;
+      font-size: 1.05rem; /* Increased size for readability */
+      font-weight: 400;   /* Slightly thicker than the body default */
+      color: var(--white-muted); /* Brighter than the original "muted" grey */
+      max-width: 650px;
+      line-height: 1.6;
+      margin-bottom: 1rem;
     }
 
     .project-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
@@ -469,12 +469,16 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
+      transform: translateY(30px) scale(0.98); /* Added slight scale for pop */
+      transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                  transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* Faster, snappier curve */
     }
 
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
+    .reveal.visible { 
+      opacity: 1; 
+      transform: translateY(0) scale(1); 
+    }
+    
     @media (max-width: 900px) {
       nav { padding: 1.25rem 1.5rem; }
       .nav-links { gap: 1.5rem; }
@@ -682,11 +686,12 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 70);
+          // Reduced delay from 70ms to 40ms for a faster "cascading" feel
+          setTimeout(() => entry.target.classList.add('visible'), i * 40); 
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08 });
+    }, { threshold: 0.1 }); // Trigger slightly later for better visual impact
     reveals.forEach(el => observer.observe(el));
 
     const sections = document.querySelectorAll('section[id]');
