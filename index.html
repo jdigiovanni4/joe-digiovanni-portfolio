@@ -324,19 +324,59 @@
     .projects-list { display: flex; flex-direction: column; }
 
     .project-item {
-      display: grid;
-      grid-template-columns: 64px 1fr 32px;
-      align-items: start;
-      gap: 2rem;
-      padding: 2.5rem 1rem;
-      border-bottom: 1px solid var(--line2);
-      cursor: pointer;
-      position: relative;
-      transition: background 0.2s;
-      text-decoration: none;
+      border-radius: 12px; /* Rounded corners */
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      padding: 2rem 1.5rem;
+    }
+    
+    .project-item:hover {
+      transform: scale(1.01); /* Subtle size increase */
+      background: rgba(201,168,76,0.06);
+      border-color: var(--gold);
     }
 
-    .project-item:hover { background: rgba(201,168,76,0.04); }
+    .project-item::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.03), transparent);
+      transition: none;
+    }
+    
+    .project-item:hover::after {
+      left: 100%;
+      transition: left 0.7s ease-in-out;
+    }
+
+    .project-thumb {
+      position: absolute;
+      right: 10%; top: 50%;
+      transform: translateY(-50%);
+      width: 140px; height: 90px;
+      border-radius: 8px;
+      opacity: 0.15;
+      filter: grayscale(100%);
+      transition: all 0.4s ease;
+      z-index: 0;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .project-item:hover .project-thumb {
+      opacity: 0.4;
+      filter: grayscale(0%);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .thumb-fullcount { background-image: url('fullcount-preview.jpg'); }
+    .thumb-flight { background-image: url('flight-network.jpg'); }
+    .thumb-utility { background-image: url('document-pipeline.jpg'); }
+    .thumb-archetype { background-image: url('clustering-map.jpg'); }
+    
+    @media (max-width: 900px) { .project-thumb { display: none; } }
 
     .project-num {
       font-family: 'DM Mono', monospace;
@@ -581,54 +621,77 @@
   <section id="projects">
     <p class="section-label reveal">Selected Work</p>
     <h2 class="section-title reveal">Projects</h2>
+    <!-- PROJECTS -->
     <div class="projects-list">
-
-      <!-- Project 01: FullCount AI -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
+    
+      <!-- FullCount AI (Production AI Pillar) -->
+      <div class="project-item reveal" onclick="window.open('YOUR_FULLCOUNT_LINK','_blank')">
+        <div class="project-thumb thumb-fullcount"></div>
         <span class="project-num">01</span>
         <div>
           <h3 class="project-title">FullCount AI <span class="badge">Founder</span></h3>
           <p class="project-desc">
-            A public-facing platform enabling non-technical users to query complex Statcast data via natural language. I re-architected the system around a deterministic DuckDB routing layer to eliminate LLM SQL hallucinations, prioritizing verifiable correctness over "best-effort" chat outputs.
+            <strong>Eliminated SQL hallucinations in natural language querying via a deterministic DuckDB routing layer.</strong> 
+            Architected an end-to-end platform for querying complex Statcast datasets, prioritizing verifiable reliability over "best-effort" LLM outputs[cite: 2].
           </p>
           <div class="project-tags">
-            <span class="tag">LLMs</span><span class="tag">DuckDB</span><span class="tag">FastAPI</span><span class="tag">Statcast</span>
+            <span class="tag">LLM Orchestration</span><span class="tag">DuckDB</span><span class="tag">FastAPI</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
     
-      <!-- Project 02: UChicago Capstone -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4','_blank')">
+      <!-- Flight Delay (Complex Systems Pillar) -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+        <div class="project-thumb thumb-flight"></div>
         <span class="project-num">02</span>
         <div>
-          <h3 class="project-title">AI Pipeline Engineer <span class="badge">Best in Show</span></h3>
+          <h3 class="project-title">Flight Delay Propagation Index</h3>
           <p class="project-desc">
-            Led the design of an end-to-end system for processing 1,000+ heterogeneous financial and legal documents. Replaced a manual review process (hours per query) with a RAG-powered interface that returns sub-second results from previously unqueryable corpora.
+            <strong>Identified that systemic airport pressure outweighs individual aircraft history in predicting cascading delays.</strong> 
+            Built an XGBoost classifier (0.870 AUC) analyzing 500k+ flights to quantify how disruptions propagate through interconnected aircraft tail chains.
           </p>
           <div class="project-tags">
-            <span class="tag">OCR</span><span class="tag">RAG</span><span class="tag">Python</span><span class="tag">System Design</span>
+            <span class="tag">XGBoost</span><span class="tag">Network Analysis</span><span class="tag">Spatiotemporal ML</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
       </div>
     
-      <!-- Project 03: Pitch Tunneling -->
-      <div class="project-item reveal" style="cursor:default;">
+      <!-- Utility Pipeline (Enterprise RAG Pillar) -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+        <div class="project-thumb thumb-utility"></div>
         <span class="project-num">03</span>
         <div>
-          <h3 class="project-title">MLB Pitch Tunneling Research</h3>
+          <h3 class="project-title">Utility Document Pipeline <span class="badge">Best in Show</span></h3>
           <p class="project-desc">
-            Independent research defining measurable constructs for pitch deception. By building a feature framework from first principles, I achieved a 150% improvement in model $R^2$ while maintaining the domain validity required for professional coaching applications[cite: 2].
+            <strong>Reduced document processing time from hours to seconds for a corpus of 1,000+ unstructured financial records.</strong> 
+            Developed an Agentic RAG system using GPT-4 and OCRmyPDF to automate structured data extraction and quality control for sensitive energy data[cite: 2].
           </p>
           <div class="project-tags">
-            <span class="tag">Causal Inference</span><span class="tag">Feature Engineering</span><span class="tag">Statistical Modeling</span>
+            <span class="tag">Agentic RAG</span><span class="tag">OCR</span><span class="tag">Document Intelligence</span>
           </div>
         </div>
-        <span></span>
+        <span class="project-arrow">↗</span>
       </div>
-
-</div>
+    
+      <!-- Behavioral Archetypes (Strategic Analytics Pillar) -->
+      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+        <div class="project-thumb thumb-archetype"></div>
+        <span class="project-num">04</span>
+        <div>
+          <h3 class="project-title">Behavioral Archetype Analysis</h3>
+          <p class="project-desc">
+            <strong>Used Gaussian Mixture Models to identify distinct performance styles that outperform aggregate metrics in strategic decision-making.</strong> 
+            Applied unsupervised clustering to high-dimensional datasets (2015-2025) to map strategic "roster construction" philosophies[cite: 2].
+          </p>
+          <div class="project-tags">
+            <span class="tag">GMM Clustering</span><span class="tag">Unsupervised Learning</span><span class="tag">Feature Engineering</span>
+          </div>
+        </div>
+        <span class="project-arrow">↗</span>
+      </div>
+    </div>
   </section>
 
   <!-- CONTACT -->
