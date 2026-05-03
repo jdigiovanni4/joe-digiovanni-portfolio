@@ -324,16 +324,52 @@
     .projects-list { display: flex; flex-direction: column; }
 
     .project-item {
-      border-radius: 12px; /* Rounded corners */
+      position: relative;
+      border-radius: 12px;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-      padding: 2rem 1.5rem;
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smoother, professional easing */
+      padding: 2.5rem 2rem;
+      border: 1px solid transparent;
+      background: transparent;
+      display: grid;
+      grid-template-columns: 64px 1fr 32px;
+      gap: 2rem;
+      text-decoration: none;
     }
+
+
+    .project-item:hover::before {
+      opacity: 1; /* Fade in during hover */
+      animation: slowShimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
     
     .project-item:hover {
-      transform: scale(1.01); /* Subtle size increase */
-      background: rgba(201,168,76,0.06);
-      border-color: var(--gold);
+      transform: scale(1.02); /* Scales the entire block and its contents */
+      background: rgba(201,168,76,0.04);
+      border-color: var(--line2);
+      z-index: 10; /* Ensures the scaled block stays on top */
+    }
+
+    .project-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -150%; /* Start well off-screen */
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to right, 
+        transparent 0%, 
+        rgba(201,168,76,0.05) 45%, 
+        rgba(201,168,76,0.08) 50%, 
+        rgba(201,168,76,0.05) 55%, 
+        transparent 100%
+      );
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0; /* Fade out by default */
+      transition: opacity 0.4s ease;
     }
 
     .project-item::after {
@@ -432,6 +468,20 @@
       vertical-align: middle;
       position: relative;
       top: -2px;
+    }
+
+    @keyframes slowShimmer {
+      0% { left: -150%; opacity: 0; }
+      20% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { left: 150%; opacity: 0; }
+    }
+    
+    /* Ensure text remains legible and crisp during scale */
+    .project-title, .project-desc, .tag {
+      transition: color 0.3s ease;
+      position: relative;
+      z-index: 2;
     }
 
     /* CONTACT */
