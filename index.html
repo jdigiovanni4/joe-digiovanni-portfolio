@@ -880,7 +880,7 @@
       const canvas = document.getElementById('network-canvas');
       const ctx = canvas.getContext('2d');
       const GOLD = [201, 168, 76];
-      const SIZE = 340;
+      const SIZE = 380;
     
       canvas.width = SIZE * devicePixelRatio;
       canvas.height = SIZE * devicePixelRatio;
@@ -890,19 +890,19 @@
     
       const CX = SIZE / 2;
       const CY = SIZE / 2 - 10;
-      const OFFSET_Y = -12;
+      const OFFSET_Y = -30;
     
       function ring(n, radius, rBase, speedBase, phaseOff) {
         return Array.from({ length: n }, (_, i) => {
           const angle = (i / n) * Math.PI * 2 + phaseOff;
           return {
             ox: CX + Math.cos(angle) * radius,
-            oy: CY + OFFSET_Y + Math.sin(angle) * radius,
+            oy: CY + OFFSET_Y + Math.sin(angle) * radius * 0.72,
             x: 0, y: 0,
             r: rBase + Math.random() * 1.2,
             speed: speedBase + Math.random() * 0.0004,
             phase: angle,
-            driftAmp: 7 + Math.random() * 6,
+            driftAmp: 12 + Math.random() * 10,
             pulse: Math.random(),
           };
         });
