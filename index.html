@@ -396,15 +396,15 @@
     
     .project-item:hover::before {
         opacity: 1;
-        animation: slowShimmer 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        /* Faster duration (1.4s) and removed any potential delay */
+        animation: slowShimmer 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        transition: opacity 0.2s ease; /* Snappier fade-in on initial hover */
     }
     
     @keyframes slowShimmer {
-        0% { left: -150%; opacity: 0; }
-        10% { opacity: 0; }
-        40% { opacity: 1; }
-        60% { opacity: 1; }
-        90% { opacity: 0; }
+        0%   { left: -150%; opacity: 0; }
+        25%  { opacity: 1; } /* Faded in by 25% */
+        75%  { opacity: 1; } /* Starts fading out at 75% */
         100% { left: 150%; opacity: 0; }
     }
     
