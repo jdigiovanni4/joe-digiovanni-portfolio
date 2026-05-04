@@ -563,49 +563,33 @@
 
 
     .contact-visual-right {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        min-height: 400px; /* Forces the space to fill */
-        position: relative;
-        overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
     }
     
     .network-container {
-        width: 100%;
-        max-width: 500px;
-        opacity: 0.6;
-        animation: floatingDrift 12s ease-in-out infinite; /* Slow drifting motion */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.6;
+      animation: floatingDrift 12s ease-in-out infinite;
     }
     
-    .network-svg {
-        width: 100%;
-        height: auto;
+    #network-canvas {
+      display: block;
+      width: 340px;
+      height: 340px;
     }
     
-    .network-lines line {
-        stroke: rgba(201, 168, 76, 0.2); /* Muted gold lines */
-        stroke-width: 1;
-        stroke-dasharray: 4;
-        animation: lineFlow 4s linear infinite;
-    }
-    
-    .network-nodes circle {
-        fill: var(--gold); /* Gold accent points */
-        filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.6));
-    }
-    
-    /* Keyframes for the 'Cinematic' feel */
     @keyframes floatingDrift {
-        0%, 100% { transform: translate(0, 0) rotate(0deg); }
-        33% { transform: translate(10px, -15px) rotate(2deg); }
-        66% { transform: translate(-5px, 10px) rotate(-1deg); }
-    }
-    
-    @keyframes lineFlow {
-        from { stroke-dashoffset: 20; }
-        to { stroke-dashoffset: 0; }
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33%       { transform: translate(10px, -15px) rotate(2deg); }
+      66%       { transform: translate(-5px, 10px) rotate(-1deg); }
     }
 
     footer {
@@ -857,25 +841,7 @@
       <div class="contact-right reveal">
         <div class="contact-visual-right">
           <div class="network-container">
-            <svg class="network-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-              <g class="network-lines">
-                <line x1="50"  y1="50"  x2="150" y2="120" />
-                <line x1="150" y1="120" x2="300" y2="80"  />
-                <line x1="300" y1="80"  x2="350" y2="250" />
-                <line x1="350" y1="250" x2="200" y2="350" />
-                <line x1="200" y1="350" x2="50"  y2="250" />
-                <line x1="50"  y1="250" x2="50"  y2="50"  />
-                <line x1="150" y1="120" x2="200" y2="350" />
-              </g>
-              <g class="network-nodes">
-                <circle cx="50"  cy="50"  r="3" />
-                <circle cx="150" cy="120" r="4" />
-                <circle cx="300" cy="80"  r="3" />
-                <circle cx="350" cy="250" r="4" />
-                <circle cx="200" cy="350" r="5" />
-                <circle cx="50"  cy="250" r="3" />
-              </g>
-            </svg>
+            <canvas id="network-canvas"></canvas>
           </div>
         </div>
       </div>
@@ -909,6 +875,163 @@
         a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--gold-light)' : '';
       });
     });
+
+    (function () {
+      const canvas = document.getElementById('network-canvas');
+      const ctx = canvas.getContext('2d');
+      const GOLD = [201, 168, 76];
+      const SIZE = 340;
+    
+      canvas.width = SIZE * devicePixelRatio;
+      canvas.height = SIZE * devicePixelRatio;
+      canvas.style.width = SIZE + 'px';
+      canvas.style.height = SIZE + 'px';
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+    
+      const CX = SIZE / 2;
+      const CY = SIZE / 2 - 10;
+      const OFFSET_Y = -12;
+    
+      function ring(n, radius, rBase, speedBase, phaseOff) {
+        return Array.from({ length: n }, (_, i) => {
+          const angle = (i / n) * Math.PI * 2 + phaseOff;
+          return {
+            ox: CX + Math.cos(angle) * radius,
+            oy: CY + OFFSET_Y + Math.sin(angle) * radius,
+            x: 0, y: 0,
+            r: rBase + Math.random() * 1.2,
+            speed: speedBase + Math.random() * 0.0004,
+            phase: angle,
+            driftAmp: 7 + Math.random() * 6,
+            pulse: Math.random(),
+          };
+        });
+      }
+    
+      const nodes = [
+        { ox: CX, oy: CY + OFFSET_Y, x: 0, y: 0, r: 6, speed: 0.0005, phase: 0, driftAmp: 4, pulse: 0 },
+        ...ring(6, 72, 3.5, 0.0007, 0),
+        ...ring(9, 138, 2.8, 0.0009, 0.35),
+      ];
+    
+      const edges = [];
+      for (let i = 1; i <= 6; i++) edges.push([0, i]);
+      for (let i = 1; i <= 6; i++) {
+        edges.push([i, i % 6 + 1]);
+        edges.push([i, (i + 1) % 6 + 1]);
+      }
+      for (let i = 1; i <= 6; i++) {
+        const o1 = 7 + ((i - 1) * 9 / 6 | 0);
+        const o2 = 7 + ((i) * 9 / 6 | 0) % 9;
+        edges.push([i, o1]);
+        edges.push([i, o2]);
+      }
+      for (let i = 7; i <= 15; i++) edges.push([i, i % 9 + 7]);
+    
+      const particles = edges.map(([a, b]) => ({
+        a, b,
+        t: Math.random(),
+        speed: 0.001 + Math.random() * 0.0012,
+        size: 1.0 + Math.random() * 1.0,
+        opacity: 0.5 + Math.random() * 0.35,
+      }));
+    
+      const dots = Array.from({ length: 40 }, () => {
+        const angle = Math.random() * Math.PI * 2;
+        const rad = Math.random() * 155;
+        return {
+          x: CX + Math.cos(angle) * rad,
+          y: CY + OFFSET_Y + Math.sin(angle) * rad,
+          r: 0.4 + Math.random() * 0.7,
+          a: 0.04 + Math.random() * 0.1,
+        };
+      });
+    
+      let t = 0;
+      function rgba(r, g, b, a) { return `rgba(${r},${g},${b},${a})`; }
+    
+      function draw() {
+        t++;
+        ctx.clearRect(0, 0, SIZE, SIZE);
+    
+        dots.forEach(d => {
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(...GOLD, d.a);
+          ctx.fill();
+        });
+    
+        nodes.forEach(n => {
+          const s = t * n.speed;
+          n.x = n.ox + Math.cos(s + n.phase) * n.driftAmp;
+          n.y = n.oy + Math.sin(s * 1.3 + n.phase) * (n.driftAmp * 0.55);
+          n.pulse = (Math.sin(t * 0.018 + n.phase * 1.7) + 1) / 2;
+        });
+    
+        edges.forEach(([ai, bi]) => {
+          const A = nodes[ai], B = nodes[bi];
+          const fadeA = 0.07 + (A.pulse + B.pulse) * 0.055;
+          ctx.beginPath();
+          ctx.moveTo(A.x, A.y);
+          ctx.lineTo(B.x, B.y);
+          ctx.strokeStyle = rgba(...GOLD, fadeA);
+          ctx.lineWidth = 0.65;
+          ctx.setLineDash([3, 7]);
+          ctx.lineDashOffset = -(t * 0.28);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        });
+    
+        particles.forEach(p => {
+          p.t += p.speed;
+          if (p.t > 1) p.t -= 1;
+          const A = nodes[p.a], B = nodes[p.b];
+          for (let step = 0; step < 5; step++) {
+            const tt = p.t - step * 0.018;
+            if (tt < 0) continue;
+            const tx = A.x + (B.x - A.x) * tt;
+            const ty = A.y + (B.y - A.y) * tt;
+            ctx.beginPath();
+            ctx.arc(tx, ty, p.size * (1 - step * 0.12), 0, Math.PI * 2);
+            ctx.fillStyle = rgba(...GOLD, p.opacity * (1 - step / 5) * 0.5);
+            ctx.fill();
+          }
+          const px = A.x + (B.x - A.x) * p.t;
+          const py = A.y + (B.y - A.y) * p.t;
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(...GOLD, p.opacity);
+          ctx.fill();
+        });
+    
+        nodes.forEach(n => {
+          const glow = n.pulse;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * (2.5 + glow * 1.5), 0, Math.PI * 2);
+          ctx.fillStyle = rgba(...GOLD, 0.04 + glow * 0.055);
+          ctx.fill();
+    
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r * 1.6, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(...GOLD, 0.10 + glow * 0.10);
+          ctx.fill();
+    
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(...GOLD, 0.55 + glow * 0.45);
+          ctx.fill();
+    
+          ctx.beginPath();
+          ctx.arc(n.x - n.r * 0.25, n.y - n.r * 0.25, n.r * 0.3, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(255, 240, 200, 0.5 + glow * 0.3);
+          ctx.fill();
+        });
+    
+        requestAnimationFrame(draw);
+      }
+    
+      draw();
+    })();
   </script>
 </body>
 </html>
