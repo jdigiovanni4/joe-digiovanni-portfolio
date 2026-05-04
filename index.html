@@ -320,14 +320,18 @@
       border-radius: 2px;
     }
 
-    /* PROJECTS */
-    .projects-list { display: flex; flex-direction: column; }
-
+    /* PROJECTS SECTION - CLEANED & DE-REDUNDANT */
+    .projects-list { 
+      display: flex; 
+      flex-direction: column; 
+    }
+    
     .project-item {
       position: relative;
       border-radius: 12px;
       overflow: hidden;
-      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); /* Smoother, professional easing */
+      /* Increased scale to 1.03 for a more noticeable 'pop' */
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); 
       padding: 2.5rem 2rem;
       border: 1px solid transparent;
       background: transparent;
@@ -335,94 +339,54 @@
       grid-template-columns: 64px 1fr 32px;
       gap: 2rem;
       text-decoration: none;
+      z-index: 1;
     }
-
-
-    .project-item:hover::before {
-      opacity: 1; /* Fade in during hover */
-      animation: slowShimmer 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    }
-
     
-    .project-item:hover {
-      transform: scale(1.02); /* Scales the entire block and its contents */
-      background: rgba(201,168,76,0.04);
-      border-color: var(--line2);
-      z-index: 10; /* Ensures the scaled block stays on top */
-    }
-
+    /* THE SINGLE SHIMMER (Replaced redundant ::after) */
     .project-item::before {
       content: '';
       position: absolute;
       top: 0;
-      left: -150%; /* Start well off-screen */
+      left: -150%;
       width: 100%;
       height: 100%;
       background: linear-gradient(
         to right, 
         transparent 0%, 
-        rgba(201,168,76,0.05) 45%, 
+        rgba(201,168,76,0.03) 45%, 
         rgba(201,168,76,0.08) 50%, 
-        rgba(201,168,76,0.05) 55%, 
+        rgba(201,168,76,0.03) 55%, 
         transparent 100%
       );
       z-index: 1;
       pointer-events: none;
-      opacity: 0; /* Fade out by default */
-      transition: opacity 0.4s ease;
-    }
-
-    .project-item::after {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 50%; height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255,255,255,0.03), transparent);
-      transition: none;
+      opacity: 0;
+      transition: opacity 0.6s ease; /* Smooth fade in/out */
     }
     
-    .project-item:hover::after {
-      left: 100%;
-      transition: left 0.7s ease-in-out;
-    }
-
-    .project-thumb {
-      position: absolute;
-      right: 10%; top: 50%;
-      transform: translateY(-50%);
-      width: 140px; height: 90px;
-      border-radius: 8px;
-      opacity: 0.15;
-      filter: grayscale(100%);
-      transition: all 0.4s ease;
-      z-index: 0;
-      pointer-events: none;
-      background-size: cover;
-      background-position: center;
+    .project-item:hover::before {
+      opacity: 1;
+      animation: slowShimmer 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
     
-    .project-item:hover .project-thumb {
-      opacity: 0.4;
-      filter: grayscale(0%);
-      transform: translateY(-50%) scale(1.1);
+    /* HOVER STATE - ENTIRE BLOCK */
+    .project-item:hover {
+      transform: scale(1.03); 
+      background: rgba(201,168,76,0.04);
+      border-color: rgba(201,168,76,0.2);
+      z-index: 10;
     }
-
-    .thumb-fullcount { background-image: url('fullcount-preview.jpg'); }
-    .thumb-flight { background-image: url('flight-network.jpg'); }
-    .thumb-utility { background-image: url('document-pipeline.jpg'); }
-    .thumb-archetype { background-image: url('clustering-map.jpg'); }
     
-    @media (max-width: 900px) { .project-thumb { display: none; } }
-
-    .project-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--gold);
-      letter-spacing: 0.08em;
-      padding-top: 0.3rem;
-      opacity: 0.7;
+    /* FIX: EXPLICIT TEXT SCALING */
+    /* This ensures the title and description feel 'weighted' during the scale */
+    .project-item:hover .project-title,
+    .project-item:hover .project-desc,
+    .project-item:hover .project-num {
+      transform: scale(1.01);
+      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+      transform-origin: left;
     }
-
+    
     .project-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 2rem;
@@ -430,30 +394,47 @@
       color: var(--white);
       line-height: 1;
       margin-bottom: 0.55rem;
-      transition: color 0.2s;
+      transition: color 0.3s ease, transform 0.6s ease;
+      z-index: 2;
+      position: relative;
     }
-
+    
     .project-item:hover .project-title { color: var(--gold-light); }
-
+    
     .project-desc {
-      font-size: 1.05rem; /* Increased size for readability */
-      font-weight: 400;   /* Slightly thicker than the body default */
-      color: var(--white-muted); /* Brighter than the original "muted" grey */
+      font-size: 1.05rem;
+      color: var(--white-muted);
       max-width: 650px;
       line-height: 1.6;
       margin-bottom: 1rem;
+      transition: transform 0.6s ease;
+      z-index: 2;
+      position: relative;
     }
-
-    .project-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; }
-
-    .project-arrow {
-      color: var(--muted);
-      font-size: 1rem;
-      transition: all 0.2s;
-      align-self: center;
+    
+    .project-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--gold);
+      opacity: 0.7;
+      transition: transform 0.6s ease;
     }
-
-    .project-item:hover .project-arrow { color: var(--gold); transform: translate(3px,-3px); }
+    
+    /* SHIMMER ANIMATION */
+    @keyframes slowShimmer {
+      0% { left: -150%; opacity: 0; }
+      10% { opacity: 0; }
+      40% { opacity: 1; }
+      60% { opacity: 1; }
+      90% { opacity: 0; }
+      100% { left: 150%; opacity: 0; }
+    }
+    
+    /* Arrow pop remains separate for that directional 'link' feel */
+    .project-item:hover .project-arrow { 
+      color: var(--gold); 
+      transform: translate(5px, -5px) scale(1.2); 
+    }
 
     .badge {
       font-family: 'DM Mono', monospace;
