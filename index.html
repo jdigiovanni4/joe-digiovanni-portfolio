@@ -320,150 +320,168 @@
       border-radius: 2px;
     }
 
-    /* PROJECTS SECTION - CLEANED & DE-REDUNDANT */
+
+
+
+
+
+    
+
+        /* --- PROJECTS SECTION --- */
     .projects-list { 
-      display: flex; 
-      flex-direction: column; 
+        display: flex; 
+        flex-direction: column; 
+        gap: 0.5rem;
     }
     
     .project-item {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      /* Increased scale to 1.03 for a more noticeable 'pop' */
-      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); 
-      padding: 2.5rem 2rem;
-      border: 1px solid transparent;
-      background: transparent;
-      display: grid;
-      grid-template-columns: 64px 1fr 32px;
-      gap: 2rem;
-      text-decoration: none;
-      z-index: 1;
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); 
+        padding: 2.5rem 2rem;
+        border: 1px solid transparent;
+        background: transparent;
+        display: grid;
+        /* Column 1: Number (64px) | Column 2: Content (Flexible) | Column 3: Arrow (32px) */
+        grid-template-columns: 64px 1fr 32px; 
+        align-items: start;
+        gap: 2rem;
+        text-decoration: none;
+        z-index: 1;
     }
     
-    /* THE SINGLE SHIMMER (Replaced redundant ::after) */
+    /* The Content Wrapper: Ensures text scales without shifting position */
+    .project-content {
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transform-origin: left center;
+        z-index: 2;
+    }
+    
+    /* Hover State: The main 'Pop' */
+    .project-item:hover {
+        transform: scale(1.03); 
+        background: rgba(201,168,76,0.04);
+        border-color: rgba(201,168,76,0.15);
+        z-index: 10;
+    }
+    
+    /* Unified text scaling */
+    .project-item:hover .project-content,
+    .project-item:hover .project-num {
+        transform: scale(1.01);
+    }
+    
+    /* The Slow Fading Shimmer */
     .project-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -150%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to right, 
-        transparent 0%, 
-        rgba(201,168,76,0.03) 45%, 
-        rgba(201,168,76,0.08) 50%, 
-        rgba(201,168,76,0.03) 55%, 
-        transparent 100%
-      );
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.6s ease; /* Smooth fade in/out */
+        content: '';
+        position: absolute;
+        top: 0; left: -150%;
+        width: 100%; height: 100%;
+        background: linear-gradient(
+            to right, 
+            transparent 0%, 
+            rgba(201,168,76,0.03) 45%, 
+            rgba(201,168,76,0.08) 50%, 
+            rgba(201,168,76,0.03) 55%, 
+            transparent 100%
+        );
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.6s ease;
     }
     
     .project-item:hover::before {
-      opacity: 1;
-      animation: slowShimmer 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        opacity: 1;
+        animation: slowShimmer 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
     
-    /* HOVER STATE - ENTIRE BLOCK */
-    .project-item:hover {
-      transform: scale(1.03); 
-      background: rgba(201,168,76,0.04);
-      border-color: rgba(201,168,76,0.2);
-      z-index: 10;
+    @keyframes slowShimmer {
+        0% { left: -150%; opacity: 0; }
+        10% { opacity: 0; }
+        40% { opacity: 1; }
+        60% { opacity: 1; }
+        90% { opacity: 0; }
+        100% { left: 150%; opacity: 0; }
     }
     
-    /* FIX: EXPLICIT TEXT SCALING */
-    /* This ensures the title and description feel 'weighted' during the scale */
-    .project-item:hover .project-title,
-    .project-item:hover .project-desc,
-    .project-item:hover .project-num {
-      transform: scale(1.01);
-      transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-      transform-origin: left;
+    /* Typography & Visual Elements */
+    .project-num {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.65rem;
+        color: var(--gold);
+        opacity: 0.7;
+        padding-top: 0.6rem; 
+        transition: transform 0.6s ease;
+        transform-origin: left center;
     }
     
     .project-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 0.05em;
-      color: var(--white);
-      line-height: 1;
-      margin-bottom: 0.55rem;
-      transition: color 0.3s ease, transform 0.6s ease;
-      z-index: 2;
-      position: relative;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 2.2rem;
+        letter-spacing: 0.05em;
+        color: var(--white);
+        line-height: 1.1;
+        margin-bottom: 0.55rem;
+        transition: color 0.3s ease;
     }
     
     .project-item:hover .project-title { color: var(--gold-light); }
     
     .project-desc {
-      font-size: 1.05rem;
-      color: var(--white-muted);
-      max-width: 650px;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-      transition: transform 0.6s ease;
-      z-index: 2;
-      position: relative;
+        font-size: 1.05rem;
+        color: var(--white-muted);
+        max-width: 680px;
+        line-height: 1.6;
+        margin-bottom: 1.2rem;
     }
     
-    .project-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--gold);
-      opacity: 0.7;
-      transition: transform 0.6s ease;
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    
+    .project-arrow {
+        align-self: center;
+        color: var(--muted);
+        font-size: 1.2rem;
+        transition: all 0.4s ease;
     }
     
-    /* SHIMMER ANIMATION */
-    @keyframes slowShimmer {
-      0% { left: -150%; opacity: 0; }
-      10% { opacity: 0; }
-      40% { opacity: 1; }
-      60% { opacity: 1; }
-      90% { opacity: 0; }
-      100% { left: 150%; opacity: 0; }
-    }
-    
-    /* Arrow pop remains separate for that directional 'link' feel */
     .project-item:hover .project-arrow { 
-      color: var(--gold); 
-      transform: translate(5px, -5px) scale(1.2); 
-    }
-
-    .badge {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.55rem;
-      border: 1px solid rgba(201,168,76,0.35);
-      color: var(--gold);
-      border-radius: 2px;
-      margin-left: 0.6rem;
-      vertical-align: middle;
-      position: relative;
-      top: -2px;
-    }
-
-    @keyframes slowShimmer {
-      0% { left: -150%; opacity: 0; }
-      20% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { left: 150%; opacity: 0; }
+        color: var(--gold); 
+        transform: translate(5px, -5px) scale(1.2); 
     }
     
-    /* Ensure text remains legible and crisp during scale */
-    .project-title, .project-desc, .tag {
-      transition: color 0.3s ease;
-      position: relative;
-      z-index: 2;
+    /* Background Thumbnails */
+    .project-thumb {
+        position: absolute;
+        right: 8%; top: 50%;
+        transform: translateY(-50%);
+        width: 160px; height: 100px;
+        border-radius: 8px;
+        opacity: 0.12;
+        filter: grayscale(100%);
+        transition: all 0.6s ease;
+        z-index: 0;
+        pointer-events: none;
+        background-size: cover;
+        background-position: center;
     }
+    
+    .project-item:hover .project-thumb {
+        opacity: 0.35;
+        filter: grayscale(0%);
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    /* Replace these with your actual image paths */
+    .thumb-fullcount { background-image: url('fullcount-preview.jpg'); }
+    .thumb-flight { background-image: url('flight-network.jpg'); }
+    .thumb-utility { background-image: url('document-pipeline.jpg'); }
+    .thumb-archetype { background-image: url('clustering-map.jpg'); }
+    
+    @media (max-width: 900px) { .project-thumb { display: none; } .project-item { grid-template-columns: 40px 1fr 24px; padding: 2rem 1rem; } }
 
     /* CONTACT */
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
@@ -654,74 +672,75 @@
     <h2 class="section-title reveal">Projects</h2>
     <!-- PROJECTS -->
     <div class="projects-list">
-    
-      <!-- FullCount AI (Production AI Pillar) -->
-      <div class="project-item reveal" onclick="window.open('YOUR_FULLCOUNT_LINK','_blank')">
+
+      <!-- 01: FULLCOUNT AI -->
+      <a href="YOUR_LIVE_LINK_HERE" target="_blank" class="project-item reveal">
         <div class="project-thumb thumb-fullcount"></div>
         <span class="project-num">01</span>
-        <div>
+        <div class="project-content">
           <h3 class="project-title">FullCount AI <span class="badge">Founder</span></h3>
           <p class="project-desc">
-            <strong>Eliminated SQL hallucinations in natural language querying via a deterministic DuckDB routing layer.</strong> 
-            Architected an end-to-end platform for querying complex Statcast datasets, prioritizing verifiable reliability over "best-effort" LLM outputs[cite: 2].
+            <strong>Developed a deterministic AI query engine that eliminated SQL hallucinations in natural language data retrieval.</strong> 
+            Architected a routing layer using DuckDB and FastAPI to ensure high-fidelity responses from complex billion-row datasets.
           </p>
           <div class="project-tags">
-            <span class="tag">LLM Orchestration</span><span class="tag">DuckDB</span><span class="tag">FastAPI</span>
+            <span class="tag">LLM Orchestration</span><span class="tag">DuckDB</span><span class="tag">AI Reliability</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
-      </div>
+      </a>
     
-      <!-- Flight Delay (Complex Systems Pillar) -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+      <!-- 02: FLIGHT DELAY -->
+      <a href="https://github.com/jdigiovanni4/flight-delay-propagation" target="_blank" class="project-item reveal">
         <div class="project-thumb thumb-flight"></div>
         <span class="project-num">02</span>
-        <div>
+        <div class="project-content">
           <h3 class="project-title">Flight Delay Propagation Index</h3>
           <p class="project-desc">
-            <strong>Identified that systemic airport pressure outweighs individual aircraft history in predicting cascading delays.</strong> 
-            Built an XGBoost classifier (0.870 AUC) analyzing 500k+ flights to quantify how disruptions propagate through interconnected aircraft tail chains.
+            <strong>Quantified cascading disruption risks across the U.S. air network using spatiotemporal machine learning.</strong> 
+            Built an XGBoost classifier (0.870 AUC) that identified systemic airport congestion as a higher predictor of delay than individual aircraft history.
           </p>
           <div class="project-tags">
-            <span class="tag">XGBoost</span><span class="tag">Network Analysis</span><span class="tag">Spatiotemporal ML</span>
+            <span class="tag">XGBoost</span><span class="tag">Network Analysis</span><span class="tag">Predictive Modeling</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
-      </div>
+      </a>
     
-      <!-- Utility Pipeline (Enterprise RAG Pillar) -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+      <!-- 03: UTILITY PIPELINE -->
+      <a href="https://github.com/jdigiovanni4/Automated-Utility-Bill-Processing" target="_blank" class="project-item reveal">
         <div class="project-thumb thumb-utility"></div>
         <span class="project-num">03</span>
-        <div>
-          <h3 class="project-title">Utility Document Pipeline <span class="badge">Best in Show</span></h3>
+        <div class="project-content">
+          <h3 class="project-title">Agentic Document Intelligence <span class="badge">UChicago Capstone</span></h3>
           <p class="project-desc">
-            <strong>Reduced document processing time from hours to seconds for a corpus of 1,000+ unstructured financial records.</strong> 
-            Developed an Agentic RAG system using GPT-4 and OCRmyPDF to automate structured data extraction and quality control for sensitive energy data[cite: 2].
+            <strong>Automated a complex financial extraction pipeline for 1,000+ unstructured records using Agentic RAG.</strong> 
+            Integrated OCRmyPDF and GPT-4 to convert sensitive energy data into structured assets, reducing manual processing time from hours to seconds.
           </p>
           <div class="project-tags">
-            <span class="tag">Agentic RAG</span><span class="tag">OCR</span><span class="tag">Document Intelligence</span>
+            <span class="tag">Agentic RAG</span><span class="tag">NLP</span><span class="tag">System Design</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
-      </div>
+      </a>
     
-      <!-- Behavioral Archetypes (Strategic Analytics Pillar) -->
-      <div class="project-item reveal" onclick="window.open('https://github.com/jdigiovanni4/...','_blank')">
+      <!-- 04: OFFENSIVE ARCHETYPES -->
+      <a href="https://github.com/jdigiovanni4/OffenseArchetypes" target="_blank" class="project-item reveal">
         <div class="project-thumb thumb-archetype"></div>
         <span class="project-num">04</span>
-        <div>
+        <div class="project-content">
           <h3 class="project-title">Behavioral Archetype Analysis</h3>
           <p class="project-desc">
-            <strong>Used Gaussian Mixture Models to identify distinct performance styles that outperform aggregate metrics in strategic decision-making.</strong> 
-            Applied unsupervised clustering to high-dimensional datasets (2015-2025) to map strategic "roster construction" philosophies[cite: 2].
+            <strong>Applied unsupervised clustering to high-dimensional datasets to identify distinct performance 'philosophies' hidden in aggregate metrics.</strong> 
+            Used Gaussian Mixture Models (GMM) to isolate strategic archetypes that consistently outperform baseline metrics in high-stakes environments[cite: 2].
           </p>
           <div class="project-tags">
-            <span class="tag">GMM Clustering</span><span class="tag">Unsupervised Learning</span><span class="tag">Feature Engineering</span>
+            <span class="tag">GMM Clustering</span><span class="tag">Unsupervised Learning</span><span class="tag">Strategic Analytics</span>
           </div>
         </div>
         <span class="project-arrow">↗</span>
-      </div>
+      </a>
+    
     </div>
   </section>
 
