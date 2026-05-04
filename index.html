@@ -561,6 +561,53 @@
 
     .contact-cta-text span { color: var(--gold); }
 
+
+    .contact-visual-right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        min-height: 400px; /* Forces the space to fill */
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .network-container {
+        width: 100%;
+        max-width: 500px;
+        opacity: 0.6;
+        animation: floatingDrift 12s ease-in-out infinite; /* Slow drifting motion */
+    }
+    
+    .network-svg {
+        width: 100%;
+        height: auto;
+    }
+    
+    .network-lines line {
+        stroke: rgba(201, 168, 76, 0.2); /* Muted gold lines */
+        stroke-width: 1;
+        stroke-dasharray: 4;
+        animation: lineFlow 4s linear infinite;
+    }
+    
+    .network-nodes circle {
+        fill: var(--gold); /* Gold accent points */
+        filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.6));
+    }
+    
+    /* Keyframes for the 'Cinematic' feel */
+    @keyframes floatingDrift {
+        0%, 100% { transform: translate(0, 0) rotate(0deg); }
+        33% { transform: translate(10px, -15px) rotate(2deg); }
+        66% { transform: translate(-5px, 10px) rotate(-1deg); }
+    }
+    
+    @keyframes lineFlow {
+        from { stroke-dashoffset: 20; }
+        to { stroke-dashoffset: 0; }
+    }
+
     footer {
       padding: 1.75rem 4rem;
       border-top: 1px solid var(--line2);
@@ -808,7 +855,31 @@
         </div>
       </div>
       <div class="contact-right reveal">
-        </a>
+        <div class="contact-visual-right">
+          <div class="network-container">
+            <svg class="network-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+              <!-- Connection Lines -->
+              <g class="network-lines">
+                <line x1="50" y1="50" x2="150" y2="120" />
+                <line x1="150" y2="120" x2="300" y2="80" />
+                <line x1="300" y2="80" x2="350" y2="250" />
+                <line x1="350" y2="250" x2="200" y2="350" />
+                <line x1="200" y2="350" x2="50" y2="250" />
+                <line x1="50" y2="250" x2="50" y2="50" />
+                <line x1="150" y2="120" x2="200" y2="350" />
+              </g>
+              <!-- Gold Nodes -->
+              <g class="network-nodes">
+                <circle cx="50" cy="50" r="3" />
+                <circle cx="150" cy="120" r="4" />
+                <circle cx="300" cy="80" r="3" />
+                <circle cx="350" cy="250" r="4" />
+                <circle cx="200" cy="350" r="5" />
+                <circle cx="50" cy="250" r="3" />
+              </g>
+            </svg>
+          </div>
+        </div>
       </div>
     </div>
   </section>
