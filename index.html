@@ -296,18 +296,46 @@
     .about-body p + p { margin-top: 1.2rem; }
     .about-body strong { color: var(--white); font-weight: 400; }
 
-    .skills-stack { display: flex; flex-direction: column; gap: 1.75rem; }
-
-    .skill-group-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.6rem;
+    /* --- SKILLS SECTION UPDATES --- */
+    .skills-stack { 
+        display: flex; 
+        flex-direction: column; 
+        gap: 2.2rem; /* Increased gap between groups for better scannability */
     }
-
-    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    
+    .skill-group-label {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.7rem; /* Slightly larger for better hierarchy */
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.9rem; /* More breathing room below the label */
+        opacity: 0.9; /* Higher contrast than before */
+    }
+    
+    .skill-tags { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 0.6rem; /* Slightly wider gap for airiness */
+    }
+    
+    /* Individual Skill Tag Enhancement */
+    .skill-tags .tag {
+        background: rgba(255, 255, 255, 0.03); /* Very subtle fill to ground the text */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: var(--white-muted);
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+    }
+    
+    .skill-tags .tag:hover {
+        color: var(--gold-light);
+        border-color: var(--gold);
+        background: rgba(201, 168, 76, 0.05);
+        transform: translateY(-2px); /* Subtle lift for interaction feedback */
+    }
 
     .tag {
       font-family: 'DM Mono', monospace;
