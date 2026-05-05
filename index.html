@@ -890,15 +890,15 @@
     
       const CX = SIZE / 2;
       const CY = SIZE / 2 - 10;
-      const OFFSET_Y = -100;
-      const OFFSET_X = -70;
+      const OFFSET_Y = 50;
+      const OFFSET_X = -120;
     
       function ring(n, radius, rBase, speedBase, phaseOff) {
         return Array.from({ length: n }, (_, i) => {
           const angle = (i / n) * Math.PI * 2 + phaseOff;
           return {
             ox: CX + Math.cos(angle) * radius * 1.2,
-            oy: CY + OFFSET_Y + Math.sin(angle) * radius * 4,
+            oy: CY + OFFSET_Y + Math.sin(angle) * radius * 3,
             x: 0, y: 0,
             r: rBase + Math.random() * 1.2,
             speed: speedBase + Math.random() * 0.0004,
