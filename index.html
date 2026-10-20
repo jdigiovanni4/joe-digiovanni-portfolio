@@ -11,11 +11,25 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
+    /*
+      Logged green scheme, 2026-10-19, before the field moved to #002345.
+      Restore these values to put the green field back.
       --green-deep:    #0d2818;
       --green-mid:     #1a4a2e;
       --green-rich:    #1e5c38;
       --green-bright:  #2d7a4f;
+      --bg-card:       rgba(13,40,24,0.6);
+      nav:             rgba(13,40,24,0.8);
+      hero glow:       rgba(45,122,79,0.35), rgba(26,74,46,0.5);
+      hero linear:     #0f3320 50%, #162b1e 100%;
+      Gold, cream, and line colors were left as they were.
+    */
+    :root {
+      /* #002345 field. Mid, rich, and bright stay on this hue and use the same lifts as the green ramp. */
+      --green-deep:    #002345;
+      --green-mid:     #013b73;
+      --green-rich:    #024688;
+      --green-bright:  #055db2;
       --gold:          #c9a84c;
       --gold-light:    #e8c97a;
       --gold-pale:     #f5e6b8;
@@ -24,7 +38,7 @@
       --muted:         #7a7870;
       --line:          rgba(201,168,76,0.15);
       --line2:         rgba(201,168,76,0.07);
-      --bg-card:       rgba(13,40,24,0.6);
+      --bg-card:       rgba(0,35,69,0.6);
     }
 
     html { scroll-behavior: smooth; }
@@ -61,7 +75,7 @@
       align-items: center;
       padding: 1.4rem 4rem;
       backdrop-filter: blur(16px);
-      background: rgba(13,40,24,0.8);
+      background: rgba(0,35,69,0.8);
       border-bottom: 1px solid var(--line2);
     }
 
@@ -104,9 +118,9 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 70% 80% at 70% 60%, rgba(45,122,79,0.35) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 60% at 20% 40%, rgba(26,74,46,0.5) 0%, transparent 60%),
-        linear-gradient(135deg, var(--green-deep) 0%, #0f3320 50%, #162b1e 100%);
+        radial-gradient(ellipse 70% 80% at 70% 60%, rgba(5,93,178,0.35) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 60% at 20% 40%, rgba(1,59,115,0.5) 0%, transparent 60%),
+        linear-gradient(135deg, var(--green-deep) 0%, #002b54 50%, #071e38 100%);
       z-index: 0;
     }
 
