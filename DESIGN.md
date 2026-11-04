@@ -4,7 +4,7 @@
 
 Hiring managers and recruiters open this page to answer one question in under 30 seconds: is Joe worth an interview for a data analyst / scientist / engineer role?
 
-**Job of the page:** name + role + location, one concrete line of what he builds, 5 impact-first projects with real thumbs, resume + contact. No product-marketing theater.
+**Job of the page:** name + role + location in the hero; background holds the “what he builds” line + collaboration line; 5 impact-first projects with real thumbs; resume + contact. No product-marketing theater.
 
 **Signature move:** left-aligned "stats desk" — paper surface, ink type, numbered project list, one navy accent. Typography and whitespace do the work.
 
