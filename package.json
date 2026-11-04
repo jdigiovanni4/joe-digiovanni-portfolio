@@ -1,0 +1,8 @@
+{
+  "name": "joe-digiovanni-portfolio-site",
+  "private": true,
+  "description": "Static portfolio. Local sandbox preview only; production is GitHub Pages on main.",
+  "scripts": {
+    "serve": "python3 -m http.server 3456"
+  }
+}
