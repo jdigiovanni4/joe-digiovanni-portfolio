@@ -3,1051 +3,579 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Joe DiGiovanni — Data Scientist</title>
+  <title>Joe DiGiovanni | Data Scientist</title>
+  <meta name="description" content="Joe DiGiovanni, data scientist in Los Angeles. Sports analytics, reliable AI systems, and applied ML." />
+  <!-- theme-color matches --paper for browser chrome -->
+  <meta name="theme-color" content="#f7f8f9" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /*
-      Logged green scheme, 2026-10-19, before the field moved to #001230.
-      #002345 ramp, kept in case the darker field is too dark:
-      deep #002345, mid #013b73, rich #024688, bright #055db2
-      nav rgba(0,35,69,0.8), card rgba(0,35,69,0.6)
-      glow rgba(5,93,178,0.35), rgba(1,59,115,0.5)
-      hero linear #002b54 50%, #071e38 100%
-      Restore these values to put the green field back.
-      --green-deep:    #0d2818;
-      --green-mid:     #1a4a2e;
-      --green-rich:    #1e5c38;
-      --green-bright:  #2d7a4f;
-      --bg-card:       rgba(13,40,24,0.6);
-      nav:             rgba(13,40,24,0.8);
-      hero glow:       rgba(45,122,79,0.35), rgba(26,74,46,0.5);
-      hero linear:     #0f3320 50%, #162b1e 100%;
-      Gold, cream, and line colors were left as they were.
-    */
     :root {
-      /* #001230 field. Mid, rich, and bright stay on this hue and use the same lifts as the prior ramp. */
-      --green-deep:    #001230;
-      --green-mid:     #01245e;
-      --green-rich:    #022c73;
-      --green-bright:  #053e9d;
-      --gold:          #c9a84c;
-      --gold-light:    #e8c97a;
-      --gold-pale:     #f5e6b8;
-      --white:         #f4f0e8;
-      --white-muted:   #c8c4b8;
-      --muted:         #7a7870;
-      --line:          rgba(201,168,76,0.15);
-      --line2:         rgba(201,168,76,0.07);
-      --bg-card:       rgba(0,18,48,0.6);
+      --paper: #f7f8f9;
+      --ink: #121417;
+      --ink-muted: #5c6570;
+      --line: #d8dde3;
+      --accent: #1e4d6b;
+      --accent-hover: #163a52;
+      --thumb-bg: #e8ecf0;
+      --radius: 4px;
+      --shadow: none;
+      --measure: 38rem;
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 1rem;
+      --space-4: 1.5rem;
+      --space-5: 2.5rem;
+      --space-6: 4rem;
+      --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+      --page: min(1120px, calc(100% - 2.5rem));
+      /* Sticky nav height for in-page anchor offset */
+      --nav-offset: 3.5rem;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--green-deep);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.6;
-      overflow-x: hidden;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 1.05rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      /* Faster taps; intentional tap flash (Web Interface Guidelines) */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: color-mix(in srgb, var(--accent) 18%, transparent);
     }
 
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 999;
+    /* Skip link: first focusable control for keyboard users */
+    .skip-link {
+      position: absolute;
+      left: var(--space-3);
+      top: var(--space-3);
+      z-index: 40;
+      padding: 0.55rem 0.85rem;
+      background: var(--ink);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      text-decoration: none;
+      border-radius: var(--radius);
+      transform: translateY(-200%);
+    }
+    .skip-link:focus {
+      transform: translateY(0);
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
     }
 
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.18em;
+    }
+    a:hover { color: var(--accent-hover); }
+    a:focus-visible,
+    .btn:focus-visible,
+    .nav-logo:focus-visible,
+    .nav-links a:focus-visible,
+    .project:focus-visible,
+    .text-link:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    /* Sticky nav must not cover section headings on jump */
+    #top,
+    #about,
+    #work,
+    #contact,
+    #main {
+      scroll-margin-top: var(--nav-offset);
+    }
+
+    .wrap {
+      width: var(--page);
+      margin-inline: auto;
+    }
+
+    /* Nav: short personal bar, no glass */
     nav {
-      position: fixed;
-      top: 0; 
-      left: 50%; 
-      transform: translateX(-50%); /* Centers the fixed nav */
-      width: 100%;
-      max-width: 1400px; /* Prevents it from getting too wide */
-      z-index: 100;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: color-mix(in srgb, var(--paper) 92%, white);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner {
+      width: var(--page);
+      margin-inline: auto;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      padding: 1.4rem 4rem;
-      backdrop-filter: blur(16px);
-      background: rgba(0,18,48,0.8);
-      border-bottom: 1px solid var(--line2);
+      gap: var(--space-3);
+      padding: 0.85rem 0;
     }
-
+    /* Home control: SVG house, not lettermark */
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
-      letter-spacing: 0.2em;
-      color: var(--gold);
-      text-decoration: none;
-    }
-
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-
-    .nav-links a {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--white-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--gold-light); }
-
-    /* HERO */
-    .hero {
-      min-height: 80vh; /* Reduced from 100vh to remove excessive empty space */
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
+      display: inline-flex;
       align-items: center;
-      padding: 5rem 4rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 3rem;
+      justify-content: center;
+      color: var(--ink);
+      text-decoration: none;
+      line-height: 0;
     }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 70% 80% at 70% 60%, rgba(5,62,157,0.35) 0%, transparent 65%),
-        radial-gradient(ellipse 50% 60% at 20% 40%, rgba(1,36,94,0.5) 0%, transparent 60%),
-        linear-gradient(135deg, var(--green-deep) 0%, #00183f 50%, #00102a 100%);
-      z-index: 0;
+    .nav-logo:hover { color: var(--accent); }
+    .nav-logo svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      display: block;
     }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: -10%; right: 15%;
-      width: 500px; height: 500px;
-      background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 65%);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .hero-left { position: relative; z-index: 2; }
-
-    .hero-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.25rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.2s;
-    }
-
-    .hero-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(4.5rem, 9vw, 9rem);
-      line-height: 0.92;
-      letter-spacing: 0.03em;
-      color: var(--white);
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.35s;
-    }
-
-    .hero-name .last { color: var(--gold); display: block; }
-
-    .hero-divider {
-      width: 60px; height: 3px;
-      background: linear-gradient(to right, var(--gold), transparent);
-      margin: 1.75rem 0;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.5s;
-    }
-
-    .hero-tagline {
-      font-size: 1rem;
-      font-weight: 300;
-      color: var(--white-muted);
-      max-width: 420px;
-      line-height: 1.8;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.65s;
-    }
-
-    .hero-cta {
-      margin-top: 2.25rem;
+    .nav-links {
+      list-style: none;
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.9s ease forwards 0.8s;
+      gap: 1.1rem;
+      justify-content: flex-end;
     }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-    /* PHOTO */
-    .hero-right {
-      position: relative;
-      z-index: 2;
+    /* Hero: left-aligned desk */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.75fr);
+      gap: var(--space-6);
+      align-items: end;
+      padding: var(--space-6) 0 var(--space-5);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.02em;
+      margin-bottom: var(--space-3);
+    }
+    .hero h1 {
+      font-size: clamp(2.6rem, 6vw, 4.2rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 12ch;
+      text-wrap: balance;
+    }
+    .hero-actions {
+      margin-top: var(--space-4);
       display: flex;
-      justify-content: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
       align-items: center;
-      opacity: 0;
-      animation: fadeIn 1.1s ease forwards 0.9s;
     }
-
-    .photo-frame {
-      position: relative;
-      width: 340px;
-      height: 420px;
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      border: 1px solid var(--accent);
+      box-shadow: var(--shadow);
+      /* Press feedback: transform only (not transition: all) */
+      transition: background-color 160ms ease-out, border-color 160ms ease-out, transform 120ms ease-out;
     }
-
-    .photo-frame::before {
-      content: '';
-      position: absolute;
-      top: -12px; right: -12px;
-      width: 100%; height: 100%;
-      border: 2px solid var(--gold);
-      border-radius: 16px;
-      opacity: 0.35;
+    .btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #fff;
     }
-
-    .photo-frame::after {
-      content: '';
-      position: absolute;
-      bottom: -8px; left: -8px;
-      width: 55%; height: 55%;
-      border-bottom: 2px solid var(--gold-light);
-      border-left: 2px solid var(--gold-light);
-      border-radius: 0 0 0 10px;
-      opacity: 0.2;
+    .btn:active {
+      transform: scale(0.97);
     }
+    .text-link {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+    .text-link:hover { color: var(--accent); border-color: var(--accent); }
 
-    .photo-inner {
+    .photo {
       width: 100%;
-      height: 100%;
-      border-radius: 14px;
-      background: linear-gradient(160deg, var(--green-mid) 0%, var(--green-rich) 60%, var(--green-deep) 100%);
-      border: 1px solid rgba(201,168,76,0.2);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      overflow: hidden;
-    }
-
-    .photo-inner img {
-      width: 100%;
-      height: 100%;
+      max-width: 280px;
+      justify-self: end;
+      aspect-ratio: 4 / 5;
       object-fit: cover;
-      object-position: center top;
-      border-radius: 14px;
+      border-radius: var(--radius);
+      background: var(--thumb-bg);
       display: block;
     }
 
-    .photo-placeholder-text {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      opacity: 0.5;
-      text-align: center;
-    }
-
-    /* BUTTONS */
-    .btn {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 0.85rem 1.75rem;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.22s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary { background: var(--gold); color: var(--green-deep); font-weight: 500; }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-    .btn-ghost { background: transparent; color: var(--white-muted); border: 1px solid var(--line); }
-    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); }
-
-    /* SECTIONS */
-    section { 
-      padding: 4rem 4rem; /* Reduced from 7rem to tighten vertical flow */
-      border-top: 1px solid var(--line2); 
-      position: relative; 
-      max-width: 1200px; /* Narrower container for better readability */
-      margin: 0 auto; 
+    section {
+      padding: var(--space-6) 0;
+      border-bottom: 1px solid var(--line);
     }
     .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.6rem;
+      margin-bottom: var(--space-2);
+    }
+    h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-4);
+      text-wrap: balance;
     }
 
-    .section-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      line-height: 1;
-      letter-spacing: 0.04em;
-      color: var(--white);
-      margin-bottom: 3rem;
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: var(--space-5);
+      align-items: start;
     }
-
-    /* ABOUT */
-    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: start; }
-
-    .about-body {font-size: 1.1rem; color: var(--white-muted); line-height: 1.8; }   
-    .about-body p + p { margin-top: 1.2rem; }
-    .about-body strong { color: var(--white); font-weight: 400; }
-
-    /* --- SKILLS SECTION UPDATES --- */
-    .skills-stack { 
-        display: flex; 
-        flex-direction: column; 
-        gap: 2.2rem; /* Increased gap between groups for better scannability */
+    .about-body {
+      max-width: var(--measure);
+      color: var(--ink);
     }
-    
-    .skill-group-label {
-        font-family: 'DM Mono', monospace;
-        font-size: 0.7rem; /* Slightly larger for better hierarchy */
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 0.9rem; /* More breathing room below the label */
-        opacity: 0.9; /* Higher contrast than before */
+    .about-body p + p { margin-top: var(--space-3); }
+    .skills-line {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--ink-muted);
+      max-width: 28rem;
     }
-    
-    .skill-tags { 
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 0.6rem; /* Slightly wider gap for airiness */
-    }
-    
-    /* Individual Skill Tag Enhancement */
-    .skill-tags .tag {
-        background: rgba(255, 255, 255, 0.03); /* Very subtle fill to ground the text */
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: var(--white-muted);
-        padding: 0.4rem 0.8rem;
-        border-radius: 4px;
-        font-size: 0.85rem;
-        transition: all 0.3s ease;
-    }
-    
-    .skill-tags .tag:hover {
-        color: var(--gold-light);
-        border-color: var(--gold);
-        background: rgba(201, 168, 76, 0.05);
-        transform: translateY(-2px); /* Subtle lift for interaction feedback */
-    }
-
-    .tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.04em;
-      padding: 0.3rem 0.7rem;
-      border: 1px solid var(--line);
-      color: var(--white-muted);
-      background: var(--bg-card);
-      border-radius: 2px;
-    }
-
-
-
-
-
-
-    
-
-        /* --- PROJECTS SECTION --- */
-    .projects-list { 
-        display: flex; 
-        flex-direction: column; 
-        gap: 0.5rem;
-    }
-    
-    .project-item {
-        position: relative;
-        border-radius: 12px;
-        overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);        
-        padding: 2.5rem 2rem;
-        border: 1px solid transparent;
-        background: transparent;
-        display: grid;
-        /* Column 1: Number (64px) | Column 2: Content (Flexible) | Column 3: Arrow (32px) */
-        grid-template-columns: 64px 1fr 32px; 
-        align-items: start;
-        gap: 2rem;
-        text-decoration: none;
-        z-index: 1;
-    }
-    
-    /* The Content Wrapper: Ensures text scales without shifting position */
-    .project-content {
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-        transform-origin: left center;
-        z-index: 2;
-    }
-    
-    /* Hover State: The main 'Pop' */
-    .project-item:hover {
-        transform: scale(1.03); 
-        background: rgba(201,168,76,0.04);
-        border-color: rgba(201,168,76,0.15);
-    }
-    
-    /* Unified text scaling */
-    .project-item:hover .project-content,
-    .project-item:hover .project-num {
-        transform: scale(1.01);
-    }
-    
-    /* The Slow Fading Shimmer */
-    .project-item::before {
-        content: '';
-        position: absolute;
-        top: 0; left: -150%;
-        width: 100%; height: 100%;
-        background: linear-gradient(
-            to right, 
-            transparent 0%, 
-            rgba(201,168,76,0.03) 45%, 
-            rgba(201,168,76,0.08) 50%, 
-            rgba(201,168,76,0.03) 55%, 
-            transparent 100%
-        );
-        z-index: 1;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-    }
-    
-    .project-item:hover::before {
-        /* Remove the 0.2s transition and make it 0s so it starts at the exact millisecond of hover */
-        opacity: 1;
-        transition: opacity 0s; 
-        
-        /* Duration matched or scaled to feel unified */
-        animation: slowShimmer 1.2s cubic-bezier(0.4, 0, 0.2, 1) 1;
-    }
-    
-    @keyframes slowShimmer {
-        /* We start the shimmer further 'in' so the light is visible the moment you hover */
-        0%   { left: -100%; opacity: 0; }
-        25%  { opacity: 1; } 
-        75%  { opacity: 1; }
-        100% { left: 100%; opacity: 0; }
-    }
-    
-    /* Typography & Visual Elements */
-    .project-num {
-        font-family: 'DM Mono', monospace;
-        font-size: 0.65rem;
-        color: var(--gold);
-        opacity: 0.7;
-        padding-top: 0.6rem; 
-        transition: transform 0.6s ease;
-        transform-origin: left center;
-    }
-    
-    .project-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 2.2rem;
-        letter-spacing: 0.05em;
-        color: var(--white);
-        line-height: 1.1;
-        margin-bottom: 0.55rem;
-        transition: color 0.3s ease;
-    }
-    
-    .project-item:hover .project-title { color: var(--gold-light); }
-    
-    .project-desc {
-        font-size: 1.05rem;
-        color: var(--white-muted);
-        max-width: 680px;
-        line-height: 1.6;
-        margin-bottom: 1.2rem;
-    }
-    
-    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    
-    .project-arrow {
-        align-self: center;
-        color: var(--muted);
-        font-size: 1.2rem;
-        transition: all 0.4s ease;
-    }
-    
-    .project-item:hover .project-arrow { 
-        color: var(--gold); 
-        transform: translate(5px, -5px) scale(1.2); 
-    }
-    
-    /* Background Thumbnails */
-    .project-thumb {
-        position: absolute;
-        right: 8%; top: 50%;
-        transform: translateY(-50%);
-        width: 160px; height: 100px;
-        border-radius: 8px;
-        opacity: 0.12;
-        filter: grayscale(100%);
-        transition: all 0.6s ease;
-        z-index: 0;
-        pointer-events: none;
-        background-size: cover;
-        background-position: center;
-    }
-    
-    .project-item:hover .project-thumb {
-        opacity: 0.35;
-        filter: grayscale(0%);
-        transform: translateY(-50%) scale(1.1);
-    }
-    
-    /* Replace these with your actual image paths */
-    .thumb-fullcount { background-image: url('fullcount-thumb.png'); }
-    .thumb-flight { background-image: url('flight_prop_thumb.png'); }
-    .thumb-utility { background-image: url('document-pipeline.png'); }
-    .thumb-archetype { background-image: url('offense_archetype_thumb.png'); }
-    
-    @media (max-width: 900px) { .project-thumb { display: none; } .project-item { grid-template-columns: 40px 1fr 24px; padding: 2rem 1rem; } }
-
-    /* CONTACT */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: stretch; }
-
-    .contact-body { font-size: 1rem; font-weight: 300; color: var(--white-muted); line-height: 1.85; margin-bottom: 2rem; }
-
-    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
-
-    .contact-link {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      text-decoration: none;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--line2);
-      background: var(--bg-card);
-      color: var(--white-muted);
-      transition: all 0.2s;
-      border-radius: 4px;
-    }
-
-    .contact-link:hover { border-color: var(--gold); color: var(--white); background: rgba(201,168,76,0.06); }
-
-    .contact-link-icon { font-size: 0.85rem; color: var(--gold); opacity: 0.7; width: 20px; text-align: center; }
-
-    .contact-link-inner { display: flex; flex-direction: column; gap: 0.15rem; }
-
-    .contact-link-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .contact-link-value { font-size: 0.9rem; }
-
-    .contact-right { display: flex; flex-direction: column; gap: 1.5rem; }
-
-    .contact-cta-text {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.1;
-      color: var(--white);
-      letter-spacing: 0.04em;
-    }
-
-    .contact-cta-text span { color: var(--gold); }
-
-
-    .contact-visual-right {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      min-height: 600px;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .network-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0.6;
-      animation: floatingDrift 12s ease-in-out infinite;
-      margin-top: -450px;
-    }
-    
-    #network-canvas {
+    .skills-line strong {
       display: block;
-      width: 340px;
-      height: 340px;
+      color: var(--ink);
+      font-weight: 500;
+      margin-bottom: var(--space-2);
     }
-    
-    @keyframes floatingDrift {
-      0%, 100% { transform: translate(0, 0) rotate(0deg); }
-      33%       { transform: translate(10px, -15px) rotate(2deg); }
-      66%       { transform: translate(-5px, 10px) rotate(-1deg); }
+
+    /* Projects: numbered list, not cards */
+    .projects {
+      list-style: none;
+    }
+    .project {
+      display: grid;
+      grid-template-columns: 96px 3rem minmax(0, 1fr) auto;
+      gap: var(--space-4);
+      align-items: start;
+      padding: var(--space-4) 0;
+      border-top: 1px solid var(--line);
+      text-decoration: none;
+      color: inherit;
+    }
+    .project:last-child { border-bottom: 1px solid var(--line); }
+    .project:hover .project-title { color: var(--accent); }
+    @media (hover: hover) {
+      .project:hover .thumb { opacity: 0.92; }
+    }
+    .thumb {
+      width: 96px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      background: var(--thumb-bg);
+      display: block;
+    }
+    .project-num {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      padding-top: 0.2rem;
+    }
+    .project-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+      transition: color 160ms ease-out;
+    }
+    .project-meta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      margin-left: 0.4rem;
+      font-weight: 400;
+    }
+    .project-desc {
+      margin-top: var(--space-2);
+      color: var(--ink-muted);
+      font-size: 0.98rem;
+      max-width: 40rem;
+      overflow-wrap: anywhere;
+      text-wrap: pretty;
+    }
+    .project-tools {
+      margin-top: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+    }
+    .project-arrow {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      padding-top: 0.15rem;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      max-width: 28rem;
+    }
+    .contact-list a {
+      font-size: 1rem;
+      text-decoration: none;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.15rem;
+      width: fit-content;
+    }
+    .contact-list a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+    .contact-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      margin-bottom: 0.15rem;
     }
 
     footer {
-      padding: 1.75rem 4rem;
-      border-top: 1px solid var(--line2);
+      padding: var(--space-4) 0 var(--space-5);
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--ink-muted);
     }
 
-    footer p {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
+    @media (max-width: 800px) {
+      :root { --page: min(1120px, calc(100% - 1.5rem)); }
+      .hero {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+        padding-top: var(--space-5);
+      }
+      .photo {
+        justify-self: start;
+        max-width: 200px;
+        order: -1;
+      }
+      .about-grid { grid-template-columns: 1fr; }
+      .project {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: var(--space-3);
+      }
+      .project-num, .project-arrow { display: none; }
+      .thumb { width: 72px; height: 54px; }
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(30px) scale(0.98); /* Added slight scale for pop */
-      transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                  transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); /* Faster, snappier curve */
-    }
-
-    .reveal.visible { 
-      opacity: 1; 
-      transform: translateY(0) scale(1); 
-    }
-    
-    @media (max-width: 900px) {
-      nav { padding: 1.25rem 1.5rem; }
-      .nav-links { gap: 1.5rem; }
-      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 4rem; }
-      .hero-right { order: -1; }
-      .photo-frame { width: 240px; height: 300px; }
-      section { padding: 5rem 1.5rem; }
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-      .project-item { grid-template-columns: 48px 1fr; }
-      .project-arrow { display: none; }
-      footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
 <body>
-
-  <nav>
-    <a href="#" class="nav-logo">JDG</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="JoeDiGiovanni_Resume_DS.pdf" target="_blank">Resume</a></li>
-    </ul>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav aria-label="Primary">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#top" aria-label="Home">
+        <!-- Simple house mark: roof + base, currentColor for ink/accent -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 10.5 12 4l8 6.5" />
+          <path d="M6.5 9.75V20h11V9.75" />
+        </svg>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="JoeDiGiovanni_Resume_DS.pdf" target="_blank" rel="noopener noreferrer">Resume</a></li>
+      </ul>
+    </div>
   </nav>
 
-  <!-- HERO -->
-  <section class="hero" id="hero" style="border-top:none;">
-    <div class="hero-left">
-      <p class="hero-eyebrow">Data Scientist &nbsp;·&nbsp; Los Angeles, CA</p>
-      <h1 class="hero-name">
-        Joe<br />
-        <span class="last">DiGiovanni</span>
-      </h1>
-      <div class="hero-divider"></div>
-      <p class="hero-tagline">
-        Finding actionable value in large data to change how decisions are made.
-      </p>
-      <div class="hero-cta">
-        <a href="JoeDiGiovanni_Resume_DS.pdf" target="_blank" class="btn btn-primary">Download Resume</a>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="photo-frame">
-        <div class="photo-inner">
-          <img src="Outdoor_LInkedin_Photo_2026.jpg" alt="Joe DiGiovanni" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <h2 class="section-title reveal">Background</h2>
-    <div class="about-grid">
-      <div class="about-body reveal">
-        <p>
-          I'm a data scientist with an M.S. in Applied Data Science from the University of Chicago and a B.S. in Applied Mathematics from UC Santa Barbara.
-        <p>
-          Most of my work lives in domains where the data is messy, the variance is high, and the conventional wisdom has gaps worth finding. I care more about being correct than being clever, and I hold a high bar for work that holds up under scrutiny from people who know the subject well.
-          That's taken me from causal inference research on an unsolved problem in baseball, to building an AI analytics platform from the ground up, to designing document intelligence systems that replaced manual expert review at scale.        </p>
-      </div>
-      
-      <div class="skills-stack reveal">
-        <div>
-          <p class="skill-group-label">Core Languages</p>
-          <div class="skill-tags">
-            <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">R</span><span class="tag">JavaScript</span>
-          </div>
-        </div>
-        <div>
-          <p class="skill-group-label">AI & Machine Learning</p>
-          <div class="skill-tags">
-            <span class="tag">LLMs (RAG/Agents)</span><span class="tag">NLP</span><span class="tag">PyTorch</span>
-            <span class="tag">XGBoost</span><span class="tag">Causal Inference</span><span class="tag">Computer Vision</span>
-          </div>
-        </div>
-        <div>
-          <p class="skill-group-label">Engineering & Cloud</p>
-          <div class="skill-tags">
-            <span class="tag">FastAPI</span><span class="tag">DuckDB</span><span class="tag">Docker</span>
-            <span class="tag">GitHub Actions</span><span class="tag">GCP (Cloud Run)</span><span class="tag">AWS</span>
-          </div>
-        </div>
-        <div>
-          <p class="skill-group-label">Competencies</p>
-          <div class="skill-tags">
-            <span class="tag">Statistical Modeling</span><span class="tag">ETL Pipelines</span>
-            <span class="tag">Predictive Analytics</span><span class="tag">REST APIs</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROJECTS -->
-  <section id="projects">
-    <p class="section-label reveal">Selected Work</p>
-    <h2 class="section-title reveal">Projects</h2>
-    <!-- PROJECTS -->
-    <div class="projects-list">
-
-      <!-- 01: FULLCOUNT AI -->
-      <a href="https://fullcount-ai.vercel.app/" target="_blank" class="project-item reveal">
-        <div class="project-thumb thumb-fullcount"></div>
-        <span class="project-num">01</span>
-        <div class="project-content">
-          <h3 class="project-title">FullCount AI <span class="badge">Founder</span></h3>
-          <p class="project-desc">
-            <strong>Developed a deterministic AI query engine that eliminated SQL hallucinations in natural language data retrieval.</strong> 
-            Architected a routing layer using DuckDB and FastAPI to ensure high-fidelity responses from high-dimensional spatiotemporal datasets.
-          </p>
-          <div class="project-tags">
-            <span class="tag">LLM Orchestration</span><span class="tag">DuckDB</span><span class="tag">AI Reliability</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-    
-      <!-- 02: FLIGHT DELAY -->
-      <a href="https://github.com/jdigiovanni4/joe-digiovanni-portfolio/tree/main/Full_Portfolio/Analytical%20%26%20Applied%20Projects/Flight%20Delay%20Propagation%20Index" target="_blank" class="project-item reveal">
-        <div class="project-thumb thumb-flight"></div>
-        <span class="project-num">02</span>
-        <div class="project-content">
-          <h3 class="project-title">Flight Delay Propagation Index</h3>
-          <p class="project-desc">
-            <strong>Quantified cascading disruption risks across the U.S. air network using spatiotemporal machine learning.</strong> 
-            Built an XGBoost classifier (0.870 AUC) that identified systemic airport congestion as a higher predictor of delay than individual aircraft history.
-          </p>
-          <div class="project-tags">
-            <span class="tag">XGBoost</span><span class="tag">Network Analysis</span><span class="tag">Predictive Modeling</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-    
-      <!-- 03: UTILITY PIPELINE -->
-      <a href="https://github.com/jdigiovanni4/rag-utility-doc-processor" target="_blank" class="project-item reveal">
-        <div class="project-thumb thumb-utility"></div>
-        <span class="project-num">03</span>
-        <div class="project-content">
-          <h3 class="project-title">Agentic Document Intelligence <span class="badge">UChicago Capstone</span></h3>
-          <p class="project-desc">
-            <strong>Automated a complex financial extraction pipeline for 1,000+ unstructured records using Agentic RAG.</strong> 
-            Integrated OCRmyPDF and GPT-4 to convert sensitive energy data into structured assets, reducing manual processing time from hours to seconds.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Agentic RAG</span><span class="tag">NLP</span><span class="tag">System Design</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-    
-      <!-- 04: OFFENSIVE ARCHETYPES -->
-      <a href="https://github.com/jdigiovanni4/joe-digiovanni-portfolio/tree/main/Full_Portfolio/Analytical%20%26%20Applied%20Projects/OffenseArchetypes" target="_blank" class="project-item reveal">
-        <div class="project-thumb thumb-archetype"></div>
-        <span class="project-num">04</span>
-        <div class="project-content">
-          <h3 class="project-title">Behavioral Archetype Analysis</h3>
-          <p class="project-desc">
-            <strong>Applied unsupervised clustering to high-dimensional datasets to identify distinct performance 'philosophies' hidden in aggregate metrics.</strong> 
-            Used Gaussian Mixture Models (GMM) to isolate strategic archetypes that consistently outperform baseline metrics in high-stakes environments.
-          </p>
-          <div class="project-tags">
-            <span class="tag">GMM Clustering</span><span class="tag">Unsupervised Learning</span><span class="tag">Strategic Analytics</span>
-          </div>
-        </div>
-        <span class="project-arrow">↗</span>
-      </a>
-    
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <p class="section-label reveal">Get In Touch</p>
-    <h2 class="section-title reveal">Contact</h2>
-    <div class="contact-grid">
+  <main id="main">
+    <header class="hero wrap" id="top">
       <div>
-        <div class="contact-links reveal">
-          <a href="mailto:YOUR_EMAIL" class="contact-link">
-            <span class="contact-link-icon">✉</span>
-            <div class="contact-link-inner">
-              <span class="contact-link-label">Email</span>
-              <span class="contact-link-value">joseph.n.digiovanni@gmail.com</span>
-            </div>
-          </a>
-          <a href="https://linkedin.com/in/josephndigiovanni" target="_blank" class="contact-link">
-            <span class="contact-link-icon">in</span>
-            <div class="contact-link-inner">
-              <span class="contact-link-label">LinkedIn</span>
-              <span class="contact-link-value">linkedin.com/in/josephndigiovanni</span>
-            </div>
-          </a>
-          <a href="https://github.com/jdigiovanni4" target="_blank" class="contact-link">
-            <span class="contact-link-icon">⌥</span>
-            <div class="contact-link-inner">
-              <span class="contact-link-label">GitHub</span>
-              <span class="contact-link-value">jdigiovanni4</span>
-            </div>
-          </a>
+        <p class="eyebrow">Data Scientist · Los Angeles, CA</p>
+        <h1>Joe DiGiovanni</h1>
+        <div class="hero-actions">
+          <a class="btn" href="JoeDiGiovanni_Resume_DS.pdf" target="_blank" rel="noopener noreferrer">Download resume</a>
+          <a class="text-link" href="#work">Selected work</a>
         </div>
       </div>
-      <div class="contact-right reveal">
-        <div class="contact-visual-right">
-          <div class="network-container">
-            <canvas id="network-canvas"></canvas>
+      <!-- LCP photo: explicit size + high fetch priority -->
+      <img class="photo" src="Outdoor_LInkedin_Photo_2026.jpg" alt="Joe DiGiovanni" width="280" height="350" fetchpriority="high" decoding="async" />
+    </header>
+
+    <section id="about">
+      <div class="wrap">
+        <p class="section-label">About</p>
+        <h2>Background</h2>
+        <div class="about-grid">
+          <div class="about-body">
+            <p>
+              M.S. Applied Data Science, University of Chicago. B.S. Applied Mathematics, UC Santa Barbara.
+            </p>
+            <p>
+              I build models and data systems that hold up when the domain experts check the work: sports analytics, reliable AI retrieval, and applied ML.
+            </p>
+            <p>
+              Thrives working collaboratively in messy, high-variance data for grounded practical solutions.
+            </p>
           </div>
+          <p class="skills-line">
+            <strong>Toolkit</strong>
+            Python · SQL · R · AI · XGBoost · causal inference · RAG / LLM systems · DuckDB · FastAPI · Docker · GCP · AWS · Streamlit
+          </p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <footer>
-    <p>© 2025 Joe DiGiovanni</p>
-    <p>Built with HTML · Hosted on GitHub Pages</p>
+    <section id="work">
+      <div class="wrap">
+        <p class="section-label">Selected work</p>
+        <h2>Projects</h2>
+        <ul class="projects">
+          <!-- 01: product lead; thumb opens the tunneling tool on the branded domain -->
+          <li>
+            <a class="project" href="https://fullcount.ai/tools/tunneling" target="_blank" rel="noopener noreferrer">
+              <img class="thumb" src="fullcount-thumb.png" alt="" width="96" height="72" loading="lazy" decoding="async" />
+              <span class="project-num">01</span>
+              <div>
+                <h3 class="project-title">FullCount AI <span class="project-meta">Founder</span></h3>
+                <p class="project-desc">
+                  Built a deterministic query path so natural-language asks against high-dimensional sports data return grounded answers instead of invented SQL.
+                </p>
+                <p class="project-tools">DuckDB · FastAPI · LLM routing · AI reliability</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <!-- 02: arXiv paper; DAS figure as thumb (repo-root sibling for Pages) -->
+          <li>
+            <a class="project" href="https://arxiv.org/abs/2610.35714" target="_blank" rel="noopener noreferrer">
+              <img class="thumb" src="tunneling-thumb.jpg" alt="" width="96" height="72" loading="lazy" decoding="async" />
+              <span class="project-num">02</span>
+              <div>
+                <h3 class="project-title">Pitch Tunneling <span class="project-meta">arXiv:2610.35714</span></h3>
+                <p class="project-desc">
+                  Measured pitch tunneling with Decision Angular Separation on 740k+ MLB sequences; DAS/AAS lifted out-of-sample R² on fastball-to-offspeed pairs.
+                </p>
+                <p class="project-tools">Causal inference · angular separation · sequence modeling · MLB Statcast</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a class="project" href="https://github.com/jdigiovanni4/joe-digiovanni-portfolio/tree/main/Full_Portfolio/Analytical%20%26%20Applied%20Projects/Flight%20Delay%20Propagation%20Index" target="_blank" rel="noopener noreferrer">
+              <img class="thumb" src="flight_prop_thumb.png" alt="" width="96" height="72" loading="lazy" decoding="async" />
+              <span class="project-num">03</span>
+              <div>
+                <h3 class="project-title">Flight Delay Propagation Index</h3>
+                <p class="project-desc">
+                  Modeled cascading delay risk across the U.S. air network; XGBoost hit 0.870 AUC and showed systemic airport congestion outranked an aircraft’s own history.
+                </p>
+                <p class="project-tools">XGBoost · network features · predictive modeling</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a class="project" href="https://github.com/jdigiovanni4/rag-utility-doc-processor" target="_blank" rel="noopener noreferrer">
+              <img class="thumb" src="document-pipeline.png" alt="" width="96" height="72" loading="lazy" decoding="async" />
+              <span class="project-num">04</span>
+              <div>
+                <h3 class="project-title">Agentic Document Intelligence <span class="project-meta">UChicago Capstone</span></h3>
+                <p class="project-desc">
+                  Automated extraction across 1,000+ unstructured utility records with OCR and agentic RAG, turning hours of manual expert review into seconds per file.
+                </p>
+                <p class="project-tools">Agentic RAG · OCRmyPDF · GPT-4 · NLP</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+          <li>
+            <a class="project" href="https://github.com/jdigiovanni4/joe-digiovanni-portfolio/tree/main/Full_Portfolio/Analytical%20%26%20Applied%20Projects/OffenseArchetypes" target="_blank" rel="noopener noreferrer">
+              <img class="thumb" src="offense_archetype_thumb.png" alt="" width="96" height="72" loading="lazy" decoding="async" />
+              <span class="project-num">05</span>
+              <div>
+                <h3 class="project-title">Behavioral Archetype Analysis</h3>
+                <p class="project-desc">
+                  Used Gaussian mixture models on high-dimensional performance data to surface offense archetypes that beat baseline aggregates in high-leverage spots.
+                </p>
+                <p class="project-tools">GMM clustering · unsupervised learning · sports analytics</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <p class="section-label">Contact</p>
+        <h2>Get in touch</h2>
+        <ul class="contact-list">
+          <li>
+            <a href="mailto:joseph.n.digiovanni@gmail.com">
+              <span class="contact-label">Email</span>
+              joseph.n.digiovanni@gmail.com
+            </a>
+          </li>
+          <li>
+            <a href="https://linkedin.com/in/josephndigiovanni" target="_blank" rel="noopener noreferrer">
+              <span class="contact-label">LinkedIn</span>
+              linkedin.com/in/josephndigiovanni
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/jdigiovanni4" target="_blank" rel="noopener noreferrer">
+              <span class="contact-label">GitHub</span>
+              github.com/jdigiovanni4
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p>© 2026 Joe DiGiovanni</p>
+    <p>HTML · GitHub Pages · edit on sandbox before main</p>
   </footer>
-
-  <script>
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          // Reduced delay from 70ms to 40ms for a faster "cascading" feel
-          setTimeout(() => entry.target.classList.add('visible'), i * 40); 
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 }); // Trigger slightly later for better visual impact
-    reveals.forEach(el => observer.observe(el));
-
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
-      navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--gold-light)' : '';
-      });
-    });
-
-    (function () {
-      const canvas = document.getElementById('network-canvas');
-      const ctx = canvas.getContext('2d');
-      const GOLD = [201, 168, 76];
-      const SIZE = 380;
-    
-      canvas.width = SIZE * devicePixelRatio;
-      canvas.height = SIZE * devicePixelRatio;
-      canvas.style.width = SIZE + 'px';
-      canvas.style.height = SIZE + 'px';
-      ctx.scale(devicePixelRatio, devicePixelRatio);
-    
-      const CX = SIZE / 2;
-      const CY = SIZE / 2 - 10;
-      const OFFSET_Y = -300;
-      const OFFSET_X = 0;
-    
-      function ring(n, radius, rBase, speedBase, phaseOff) {
-        return Array.from({ length: n }, (_, i) => {
-          const angle = (i / n) * Math.PI * 2 + phaseOff;
-          return {
-            ox: CX + Math.cos(angle) * radius * 1.2,
-            oy: CY + OFFSET_Y + Math.sin(angle) * radius * 3,
-            x: 0, y: 0,
-            r: rBase + Math.random() * 1.2,
-            speed: speedBase + Math.random() * 0.0004,
-            phase: angle,
-            driftAmp: 12 + Math.random() * 10,
-            pulse: Math.random(),
-          };
-        });
-      }
-    
-      const nodes = [
-        { ox: CX, oy: CY + OFFSET_Y, x: 0, y: 0, r: 6, speed: 0.0005, phase: 0, driftAmp: 4, pulse: 0 },
-        ...ring(6, 72, 3.5, 0.0007, 0),
-        ...ring(9, 138, 2.8, 0.0009, 0.35),
-      ];
-    
-      const edges = [];
-      for (let i = 1; i <= 6; i++) edges.push([0, i]);
-      for (let i = 1; i <= 6; i++) {
-        edges.push([i, i % 6 + 1]);
-        edges.push([i, (i + 1) % 6 + 1]);
-      }
-      for (let i = 1; i <= 6; i++) {
-        const o1 = 7 + ((i - 1) * 9 / 6 | 0);
-        const o2 = 7 + ((i) * 9 / 6 | 0) % 9;
-        edges.push([i, o1]);
-        edges.push([i, o2]);
-      }
-      for (let i = 7; i <= 15; i++) edges.push([i, i % 9 + 7]);
-    
-      const particles = edges.map(([a, b]) => ({
-        a, b,
-        t: Math.random(),
-        speed: 0.001 + Math.random() * 0.0012,
-        size: 1.0 + Math.random() * 1.0,
-        opacity: 0.5 + Math.random() * 0.35,
-      }));
-    
-      const dots = Array.from({ length: 40 }, () => {
-        const angle = Math.random() * Math.PI * 2;
-        const rad = Math.random() * 155;
-        return {
-          x: CX + Math.cos(angle) * rad,
-          y: CY + OFFSET_Y + Math.sin(angle) * rad,
-          r: 0.4 + Math.random() * 0.7,
-          a: 0.04 + Math.random() * 0.1,
-        };
-      });
-    
-      let t = 0;
-      function rgba(r, g, b, a) { return `rgba(${r},${g},${b},${a})`; }
-    
-      function draw() {
-        t++;
-        ctx.clearRect(0, 0, SIZE, SIZE);
-    
-        dots.forEach(d => {
-          ctx.beginPath();
-          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(...GOLD, d.a);
-          ctx.fill();
-        });
-    
-        nodes.forEach(n => {
-          const s = t * n.speed;
-          n.x = n.ox + Math.cos(s + n.phase) * n.driftAmp;
-          n.y = n.oy + Math.sin(s * 1.3 + n.phase) * (n.driftAmp * 0.55);
-          n.pulse = (Math.sin(t * 0.018 + n.phase * 1.7) + 1) / 2;
-        });
-    
-        edges.forEach(([ai, bi]) => {
-          const A = nodes[ai], B = nodes[bi];
-          const fadeA = 0.07 + (A.pulse + B.pulse) * 0.055;
-          ctx.beginPath();
-          ctx.moveTo(A.x, A.y);
-          ctx.lineTo(B.x, B.y);
-          ctx.strokeStyle = rgba(...GOLD, fadeA);
-          ctx.lineWidth = 0.65;
-          ctx.setLineDash([3, 7]);
-          ctx.lineDashOffset = -(t * 0.28);
-          ctx.stroke();
-          ctx.setLineDash([]);
-        });
-    
-        particles.forEach(p => {
-          p.t += p.speed;
-          if (p.t > 1) p.t -= 1;
-          const A = nodes[p.a], B = nodes[p.b];
-          for (let step = 0; step < 5; step++) {
-            const tt = p.t - step * 0.018;
-            if (tt < 0) continue;
-            const tx = A.x + (B.x - A.x) * tt;
-            const ty = A.y + (B.y - A.y) * tt;
-            ctx.beginPath();
-            ctx.arc(tx, ty, p.size * (1 - step * 0.12), 0, Math.PI * 2);
-            ctx.fillStyle = rgba(...GOLD, p.opacity * (1 - step / 5) * 0.5);
-            ctx.fill();
-          }
-          const px = A.x + (B.x - A.x) * p.t;
-          const py = A.y + (B.y - A.y) * p.t;
-          ctx.beginPath();
-          ctx.arc(px, py, p.size, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(...GOLD, p.opacity);
-          ctx.fill();
-        });
-    
-        nodes.forEach(n => {
-          const glow = n.pulse;
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r * (2.5 + glow * 1.5), 0, Math.PI * 2);
-          ctx.fillStyle = rgba(...GOLD, 0.04 + glow * 0.055);
-          ctx.fill();
-    
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r * 1.6, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(...GOLD, 0.10 + glow * 0.10);
-          ctx.fill();
-    
-          ctx.beginPath();
-          ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(...GOLD, 0.55 + glow * 0.45);
-          ctx.fill();
-    
-          ctx.beginPath();
-          ctx.arc(n.x - n.r * 0.25, n.y - n.r * 0.25, n.r * 0.3, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(255, 240, 200, 0.5 + glow * 0.3);
-          ctx.fill();
-        });
-    
-        requestAnimationFrame(draw);
-      }
-    
-      draw();
-    })();
-  </script>
 </body>
 </html>

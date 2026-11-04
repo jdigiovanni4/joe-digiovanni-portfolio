@@ -1,4 +1,20 @@
-# Joe's Portfolio
+# Joe DiGiovanni — Portfolio site
+
+**Working clone for Cursor:** `~/joe-digiovanni-portfolio-site` (branch `sandbox` for edits).  
+**Production:** GitHub Pages from `main` → https://jdigiovanni4.github.io/joe-digiovanni-portfolio/
+
+## Local sandbox
+
+```bash
+npm run serve
+```
+
+Open http://localhost:3456. Details: [sandbox/README.md](sandbox/README.md).  
+Do not push to `main` until you explicitly approve a promote.
+
+---
+
+## Project catalog
 
 ## About
 
