@@ -216,7 +216,9 @@
     .photo {
       width: 100%;
       max-width: 280px;
+      /* Desk layout pins the photo right; a small end margin pulls it left of the edge */
       justify-self: end;
+      margin-inline-end: 2rem;
       aspect-ratio: 4 / 5;
       object-fit: cover;
       border-radius: var(--radius);
@@ -385,6 +387,7 @@
       }
       .photo {
         justify-self: start;
+        margin-inline-end: 0;
         max-width: 200px;
         order: -1;
       }
